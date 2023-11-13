@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "837436786756",
+    "project_id": "job-push-notify",
+    "storage_bucket": "job-push-notify.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:837436786756:android:d254046aec7e0bbd845411",
+        "android_client_info": {
+          "package_name": "vn.iotstar.food_delivery"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPg4VAdvhtW4d8qq5Zo5W8SJFxYoSlaCw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
