@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/common/color_extension.dart';
+import 'package:food_delivery/gen/assets.gen.dart';
+
+import '../../../restaurant/data/model/restaurant_model.dart';
+import '../../../restaurant/data/model/restaurant_response.dart';
 
 class PopularRestaurantRow extends StatelessWidget {
-  final Map pObj;
+  final Restaurant restaurant;
   final VoidCallback onTap;
   const PopularRestaurantRow(
-      {super.key, required this.pObj, required this.onTap});
-
+      {super.key, required this.restaurant, required this.onTap});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,8 +19,8 @@ class PopularRestaurantRow extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(
-              pObj["image"].toString(),
+            Image.network(
+              restaurant.logo,
               width: double.maxFinite,
               height: 200,
               fit: BoxFit.cover,
@@ -34,7 +37,7 @@ class PopularRestaurantRow extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    pObj["name"],
+                    restaurant.name,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: AppColorScheme.primaryText,
@@ -48,7 +51,7 @@ class PopularRestaurantRow extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Image.asset(
-                        "assets/img/rate.png",
+                        Assets.images.rate.path,
                         width: 10,
                         height: 10,
                         fit: BoxFit.cover,
@@ -57,7 +60,7 @@ class PopularRestaurantRow extends StatelessWidget {
                         width: 4,
                       ),
                       Text(
-                        pObj["rate"],
+                        restaurant.address.toString(),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: AppColorScheme.kPrimary, fontSize: 11),
@@ -66,7 +69,7 @@ class PopularRestaurantRow extends StatelessWidget {
                         width: 8,
                       ),
                       Text(
-                        "(${pObj["rating"]} Ratings)",
+                        "(10) Ratings",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: AppColorScheme.secondaryText, fontSize: 11),
@@ -75,7 +78,7 @@ class PopularRestaurantRow extends StatelessWidget {
                         width: 8,
                       ),
                       Text(
-                        pObj["type"],
+                        restaurant.phone,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: AppColorScheme.secondaryText, fontSize: 11),
@@ -87,10 +90,12 @@ class PopularRestaurantRow extends StatelessWidget {
                             color: AppColorScheme.kPrimary, fontSize: 11),
                       ),
                       Text(
-                        pObj["food_type"],
+                        "Đang mở cửa",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: AppColorScheme.secondaryText, fontSize: 12),
+                          color: AppColorScheme.light.success,
+                          fontSize: 12,
+                        ),
                       ),
                     ],
                   ),

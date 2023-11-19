@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class ValidatorUtils {
   static String? usernameValidator(String? username) {
     if (username == null || username.isEmpty) {
@@ -18,6 +20,19 @@ class ValidatorUtils {
     return null;
   }
 
+  static String? emailValidator(String? email) {
+    if (email == null || email.isEmpty) {
+      return 'This field cannot be empty';
+    }
+    final emailRegex = RegExp(
+        r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$'); // Assuming a 10-digit phone number
+
+    if (!emailRegex.hasMatch(email)) {
+      return 'Invalid format. Please enter a valid email or phone number.';
+    }
+    return null;
+  }
+
   static String? passwordValidator(String? password) {
     if (password == null || password.isEmpty) {
       return 'This field cannot be empty';
@@ -25,6 +40,20 @@ class ValidatorUtils {
     if (password.length < 6) {
       return 'Password must 6 charactor';
     }
+    return null;
+  }
+
+  static String? phoneValidator(String? phoneNumber) {
+    if (phoneNumber == null || phoneNumber.isEmpty) {
+      return 'This field cannot be empty';
+    }
+
+    final phoneRegex = RegExp(r'^\d{10}$'); // Assuming a 10-digit phone number
+
+    if (!phoneRegex.hasMatch(phoneNumber)) {
+      return 'Invalid format. Please enter a valid phone number.';
+    }
+
     return null;
   }
 
@@ -38,4 +67,6 @@ class ValidatorUtils {
     }
     return null;
   }
+
+
 }

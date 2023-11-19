@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/app/feature/home/domain/entities/menu_item.dart';
-import 'package:food_delivery/common/btn/btn_default.dart';
 import 'package:food_delivery/common/color_extension.dart';
 import 'package:food_delivery/common/text_theme.dart';
 import 'package:food_delivery/gen/assets.gen.dart';
@@ -144,19 +143,19 @@ class _OfferPageState extends State<OfferPage> {
               const SizedBox(
                 height: 15,
               ),
-              ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                padding: EdgeInsets.zero,
-                itemCount: offerArr.length,
-                itemBuilder: ((context, index) {
-                  MenuItems items = offerArr[index];
-                  return PopularRestaurantRow(
-                    menuItems: items,
-                    onTap: () {},
-                  );
-                }),
-              ),
+              // ListView.builder(
+              //   physics: const NeverScrollableScrollPhysics(),
+              //   shrinkWrap: true,
+              //   padding: EdgeInsets.zero,
+              //   itemCount: offerArr.length,
+              //   itemBuilder: ((context, index) {
+              //     MenuItems items = offerArr[index];
+              //     return PopularRestaurantRow(
+              //       menuItems: items,
+              //       onTap: () {},
+              //     );
+              //   }),
+              // ),
             ],
           ),
         ),

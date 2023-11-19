@@ -23,8 +23,6 @@ class LoginSuccessState extends LoginState {
   LoginSuccessState({required this.accessToken, required this.refreshToken});
 }
 
-class LoginErrorState extends LoginState {}
-
 class LoginLoadingState extends LoginState {}
 
 class LoginGetProfileState extends LoginState {

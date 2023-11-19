@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_delivery/app/feature/auth/presentation/cubit/auth_cubit.dart';
-import 'package:food_delivery/app/feature/login/presentation/page/login_page.dart';
+import 'package:food_delivery/app/feature/change_address/presentation/page/address_page.dart';
 import 'package:food_delivery/app/feature/multiple_language/presentation/pages/multiple_language_page.dart';
 import 'package:food_delivery/app/feature/notification/presentation/pages/notification_page.dart';
 import 'package:food_delivery/app/feature/order/presentation/pages/order_page.dart';
 import 'package:food_delivery/app/feature/payment/presentation/pages/payment_page.dart';
-import 'package:food_delivery/app/feature/dish_detail/presentation/pages/product_detail_page2.dart';
 import 'package:food_delivery/app/feature/profile/presentation/pages/profile_page.dart';
 import 'package:food_delivery/common/color_extension.dart';
 import 'package:food_delivery/gen/assets.gen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import '../../domain/entities/item_more_entities.dart';
 
 class MorePage extends StatefulWidget {
@@ -56,14 +54,8 @@ class _MorePageState extends State<MorePage> {
       },
       {
         "index": "5",
-        "name": AppLocalizations.of(context)!.settings,
-        "image": Assets.images.moreInbox.path,
-        "base": 0
-      },
-      {
-        "index": "6",
-        "name": AppLocalizations.of(context)!.logout,
-        "image": Assets.images.moreInfo.path,
+        "name": "Sổ địa chỉ",
+        "image": Assets.images.mapPin.path,
         "base": 0
       },
     ];
@@ -146,8 +138,10 @@ class _MorePageState extends State<MorePage> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 CircleAvatar(
-                                    backgroundImage:
-                                        NetworkImage(state.user?.avatar ?? "")),
+                                    backgroundImage: NetworkImage(
+                                        state is GetDoneUserState
+                                            ? state.user.avatar
+                                            : "")),
                                 const SizedBox(
                                   width: 15,
                                 ),
@@ -157,7 +151,9 @@ class _MorePageState extends State<MorePage> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        state.user?.fullName ?? "",
+                                        state is GetDoneUserState
+                                            ? state.user.fullName
+                                            : "",
                                         style: TextStyle(
                                             color: AppColorScheme.primaryText,
                                             fontSize: 14,
@@ -167,15 +163,20 @@ class _MorePageState extends State<MorePage> {
                                         height: 5,
                                       ),
                                       Text(
-                                          state.user?.isActive == true
-                                              ? "Đã xác thực"
-                                              : "Chưa xác thực",
+                                          state is GetDoneUserState
+                                              ? state.user.isActive == true
+                                                  ? "Đã xác thực"
+                                                  : "Chưa xác thực"
+                                              : "",
                                           style: TextStyle(
-                                              color: state.user?.isActive ??
-                                                      false
-                                                  ? AppColorScheme.light.success
-                                                  : AppColorScheme
-                                                      .light.warning,
+                                              color: state is GetDoneUserState
+                                                  ? state.user?.isActive ??
+                                                          false
+                                                      ? AppColorScheme
+                                                          .light.success
+                                                      : AppColorScheme
+                                                          .light.warning
+                                                  : AppColorScheme.kPrimary,
                                               fontSize: 12,
                                               fontWeight: FontWeight.w600))
                                     ],
@@ -217,10 +218,8 @@ class _MorePageState extends State<MorePage> {
                       onTap: () {
                         switch (itemsMore.index) {
                           case "-1":
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const ProfilePage()));
+                            Navigator.of(context)
+                                .pushNamed(ProfilePage.routeName);
                             break;
                           case "0":
                             Navigator.push(
@@ -252,13 +251,7 @@ class _MorePageState extends State<MorePage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ProductDetail()));
-                            break;
-                          case "6":
-                            Navigator.of(context).pushNamedAndRemoveUntil(
-                                LoginPage.routeName, (route) => false,
-                                arguments: "");
+                                    builder: (context) => const AddressPage()));
                             break;
 
                           default:

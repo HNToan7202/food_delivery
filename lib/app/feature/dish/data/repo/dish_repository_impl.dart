@@ -16,11 +16,12 @@ class DishRepositoryImpl implements DishRepository {
   });
 
   @override
-  Future<CommonResponse<DishResponse>> getDishByCateId(
+  Future<CommonResponse<DishResponseData>> getDishByCateId(
       DishByCategoryReq request) {
-    return service.get<DishByCategoryReq, DishResponse>(
-      path: "$BASE_URL2/v1/dish-category/detail",
+    return service.get<DishByCategoryReq, DishResponseData>(
+      path: "$BASE_URL/v1/dish-category/detail",
       params: request,
+      tFromMap: DishResponseData.fromMap,
     );
   }
 }

@@ -29,9 +29,10 @@
   "forgotPassword": "Quên mật khẩu?",
   "dontHaveAccount": "Bạn chưa có tài khoản?",
   "signUp": "Đăng ký",
-  "loginWithFacebook": "Đăng nhập với Facebook",
-  "loginWithGoogle": "Đăng nhập với Google",
+  "loginWithFacebook": "Facebook",
+  "loginWithGoogle": "Google",
   "save": "Lưu",
   "hintSearch": "Bạn muốn ăn gì ?",
-  "manageProfile":"Quản lý tài khoản"
+  "manageProfile": "Quản lý tài khoản",
+  "orLoginWith": "Hoặc đăng nhập với"
 }

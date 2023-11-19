@@ -3,6 +3,6 @@ import '../../data/model/dish_req.dart';
 import '../../data/model/dish_response.dart';
 
 abstract class DishRepository {
-  Future<CommonResponse<DishResponse>> getDishByCateId(
+  Future<CommonResponse<DishResponseData>> getDishByCateId(
       DishByCategoryReq request);
 }

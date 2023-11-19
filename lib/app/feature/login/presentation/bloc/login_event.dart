@@ -10,8 +10,3 @@ class LoginEventInitial extends LoginEvent {
   final String? userName;
   LoginEventInitial({this.userName});
 }
-
-class LoginEventGetProfile extends LoginEvent {
-  final GetUserInfoRequest? accessToken;
-  LoginEventGetProfile({this.accessToken});
-}

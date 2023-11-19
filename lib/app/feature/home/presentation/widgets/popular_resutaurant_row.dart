@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery/app/feature/home/domain/entities/menu_item.dart';
 import 'package:food_delivery/gen/assets.gen.dart';
 import '../../../../../common/color_extension.dart';
+import '../../../restaurant/data/model/res_dish_response.dart';
 
 class PopularRestaurantRow extends StatelessWidget {
-  final MenuItems menuItems;
+  final Dish menuItems;
   final VoidCallback onTap;
   const PopularRestaurantRow(
       {super.key, required this.menuItems, required this.onTap});
@@ -18,7 +18,7 @@ class PopularRestaurantRow extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(
+            Image.network(
               menuItems.image,
               width: double.maxFinite,
               height: 200,
@@ -59,7 +59,7 @@ class PopularRestaurantRow extends StatelessWidget {
                         width: 4,
                       ),
                       Text(
-                        menuItems.rate.toString(),
+                        "menuItems.rate.toString()",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: AppColorScheme.kPrimary, fontSize: 11),
@@ -68,7 +68,7 @@ class PopularRestaurantRow extends StatelessWidget {
                         width: 8,
                       ),
                       Text(
-                        "(${menuItems.rating} Ratings)",
+                        "Ratings)",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: AppColorScheme.secondaryText, fontSize: 11),
@@ -77,7 +77,7 @@ class PopularRestaurantRow extends StatelessWidget {
                         width: 8,
                       ),
                       Text(
-                        menuItems.type,
+                        menuItems.quantity.toString(),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: AppColorScheme.secondaryText, fontSize: 11),
@@ -89,7 +89,7 @@ class PopularRestaurantRow extends StatelessWidget {
                             color: AppColorScheme.kPrimary, fontSize: 11),
                       ),
                       Text(
-                        menuItems.foodType,
+                        menuItems.price.toString(),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: AppColorScheme.secondaryText, fontSize: 12),

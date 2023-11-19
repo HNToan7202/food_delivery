@@ -29,9 +29,10 @@
   "forgotPassword": "Forgot password?",
   "dontHaveAccount": "Don't have an account?",
   "signUp": "Sign up",
-  "loginWithFacebook": "Login with Facebook",
-  "loginWithGoogle": "Login with Google",
+  "loginWithFacebook": "Facebook",
+  "loginWithGoogle": "Google",
   "save": "Save",
   "hintSearch": "What would you like to eat?",
-  "manageProfile": "Manage profile"
+  "manageProfile": "Manage profile",
+  "orLoginWith": "Or login with"
 }

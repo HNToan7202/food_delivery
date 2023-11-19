@@ -4,10 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:food_delivery/app/feature/auth/presentation/cubit/auth_cubit.dart';
 import 'package:food_delivery/app/feature/multiple_language/presentation/cubit/multiple_language_cubit.dart';
-import 'package:food_delivery/app/feature/user/cubit/user_cubit.dart';
+import 'package:food_delivery/app/feature/order/presentation/cubit/order_cubit.dart';
 import 'package:food_delivery/firebase_options.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
+import 'core/my_bloc_observer.dart';
 import 'di.dart' as di;
 
 import 'app/app.dart';
@@ -20,21 +21,24 @@ void main() async {
     storageDirectory: await getApplicationDocumentsDirectory(),
   );
   HydratedBloc.storage = storage;
+  Bloc.observer = MyBlocObserver();
 
-  runApp(MultiBlocProvider(
-    providers: [
-      BlocProvider<UserCubit>(
-        create: (context) => UserCubit(),
-      ),
-      BlocProvider<MultipleLanguageCubit>(
-        create: (context) => MultipleLanguageCubit(),
-      ),
-      BlocProvider<AuthCubit>(
-        create: (context) => AuthCubit(),
-      ),
-    ],
-    child: const MyApp(),
-  ));
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<MultipleLanguageCubit>(
+          create: (context) => MultipleLanguageCubit(),
+        ),
+        BlocProvider<AuthCubit>(
+          create: (context) => AuthCubit(),
+        ),
+        BlocProvider<OrderCubit>(
+          create: (context) => OrderCubit(),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
   configLoading();
 }
 

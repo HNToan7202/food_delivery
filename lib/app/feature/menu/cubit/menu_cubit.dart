@@ -5,7 +5,7 @@ import 'package:food_delivery/app/feature/home/data/repo/category_repository_imp
 
 import '../../../../../../../core/models/common_response.dart';
 import '../../../../../../../di.dart';
-import '../../../../data/model/categories_response.dart';
+import '../../home/data/model/categories_response.dart';
 
 part 'menu_state.dart';
 

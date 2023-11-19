@@ -1,5 +1,6 @@
 // Form Error
 // ignore_for_file: constant_identifier_names
+import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 import 'package:food_delivery/common/color_extension.dart';
@@ -47,6 +48,14 @@ class DBConstants {
   static const String ACCOUNT = "ACCOUNTS";
   static const String USER_PROFILE = "USER_PROFILE";
   static const String baseUrl = "https://65266d6d917d673fd76c3c0b.mockapi.io/";
+}
+
+class MoneyUtils {
+  static String vndDong(double amount) {
+    NumberFormat vietnameseDongFormat =
+        NumberFormat.currency(locale: 'vi_VN', symbol: '₫');
+    return vietnameseDongFormat.format(amount);
+  }
 }
 
 // String md5X(String password) =>

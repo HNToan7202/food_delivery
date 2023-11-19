@@ -7,6 +7,8 @@ import 'package:food_delivery/common/text_theme.dart';
 class NewPassWordPage extends StatefulWidget {
   const NewPassWordPage({super.key});
 
+  static const routeName = "/new-password";
+
   @override
   State<NewPassWordPage> createState() => _NewPassWordPageState();
 }

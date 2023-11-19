@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:food_delivery/app/feature/home/presentation/page/cubit/cubit/menu_cubit.dart';
 import 'package:food_delivery/app/feature/home/presentation/page/home_page.dart';
-import 'package:food_delivery/app/feature/home/presentation/page/menu/menu_page.dart';
 import 'package:food_delivery/app/feature/more/persentation/pages/more_page.dart';
 import 'package:food_delivery/app/feature/notification/presentation/pages/notification_page.dart';
 import 'package:food_delivery/app/feature/offer/presentation/page/offer_page.dart';
+import 'package:food_delivery/app/feature/order/presentation/pages/order_page.dart';
 import 'package:food_delivery/common/color_extension.dart';
 import 'package:food_delivery/gen/assets.gen.dart';
 import '../../../../../common/btn/tab_button.dart';
-import '../../data/model/categories_req.dart';
+import '../../../menu/menu_page.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({super.key});
@@ -88,12 +86,12 @@ class _NavBarState extends State<NavBar> {
                     },
                     isSelected: tab == 0),
                 TabButton(
-                    title: "Offer",
+                    title: "Order",
                     icon: Assets.images.tabOffer.path,
                     onTap: () {
                       if (tab != 1) {
                         tab = 1;
-                        selectPageView = const OfferPage();
+                        selectPageView = const OrderPage();
                       }
                       if (mounted) {
                         setState(() {});

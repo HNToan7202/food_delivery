@@ -8,6 +8,17 @@ class AppDio {
   }
 
   Dio initDio(Dio dio) {
+    dio.options.baseUrl = "https://foods-delivery.azurewebsites.net/api";
+    dio.interceptors.add(InterceptorsWrapper(
+      onRequest:
+          (RequestOptions requestOptions, RequestInterceptorHandler handler) {},
+      onError: ((e, handler) {
+        if (e.response?.statusCode == 401) {
+          //Trả về trang login
+          
+        }
+      }),
+    ));
     return dio;
   }
 }

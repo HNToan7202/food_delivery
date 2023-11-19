@@ -23,34 +23,5 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         userNameController.text = event.userName ?? "";
       },
     );
-
-    // on<LoginEventSubmit>((event, emit) async {
-    //   LoginRequest request = LoginRequest(
-    //       username: userNameController.text, password: passwordController.text);
-    //   final res =
-    //       await locator.get<AuthRepositoryImpl>().doLogin(requestBody: request);
-
-    //   if (res is SuccessRessponse<LoginResponseData>) {
-    //     emit(LoginSuccessState(
-    //         accessToken: res.data?.accessToken ?? "",
-    //         refreshToken: res.data?.refreshToken ?? ""));
-    //   } else {
-    //     emit(LoginErrorState());
-    //   }
-    // });
-
-    // on<LoginEventGetProfile>((event, emit) async {
-    //   GetUserInfoRequest request =
-    //       GetUserInfoRequest(accessToken: event.accessToken?.accessToken ?? "");
-    //   final res = await locator
-    //       .get<AuthRepositoryImpl>()
-    //       .getUserInfo(requestHeader: request);
-    //   if (res is SuccessRessponse<UserResponseData>) {
-    //     print("res.data name ${res.data?.fullName}");
-    //     emit(LoginGetProfileState(userResponseData: res.data!));
-    //   } else {
-    //     emit(LoginErrorState());
-    //   }
-    // });
   }
 }

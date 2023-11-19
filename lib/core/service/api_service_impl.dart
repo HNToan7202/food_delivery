@@ -49,12 +49,11 @@ class ApiServiceImpl implements ApiService {
         requestBody: true,
       ));
     final Map<String, dynamic> queryParameters = params?.toMap() ?? {};
-    if (queryParameters.containsKey('accessToken')) {
+    if (queryParameters.containsKey('accessToken') == true) {
       dioX.options.headers.addAll(
           {'Authorization': 'Bearer ${queryParameters['accessToken']}'});
       queryParameters.remove('accessToken');
     }
-
     try {
       response = await dioX.get(path, queryParameters: queryParameters);
       return handleResponse(response, tFromMap: tFromMap);
@@ -96,8 +95,26 @@ class ApiServiceImpl implements ApiService {
     required String path,
     required Request? requestBody,
     T? Function(Map<String, dynamic> map)? tFromMap,
-  }) {
-    throw UnimplementedError();
+  }) async {
+    late final Response response;
+    final Dio dioX = dio
+      ..interceptors.add(PrettyDioLogger(
+        requestHeader: true,
+        requestBody: true,
+      ));
+    final Map<String, dynamic> dataMap = requestBody?.toMap() ?? {};
+
+    if (dataMap.containsKey('accessToken')) {
+      dioX.options.headers
+          .addAll({'Authorization': 'Bearer ${dataMap['accessToken']}'});
+      dataMap.remove('accessToken');
+    }
+    try {
+      response = await dioX.put(path, data: dataMap == {} ? null : dataMap);
+      return handleResponse(response, tFromMap: tFromMap);
+    } catch (e) {
+      return ObjectErrorResponse(message: e.toString());
+    }
   }
 
   @override

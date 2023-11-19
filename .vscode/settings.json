@@ -4,8 +4,10 @@
     "autovalidate",
     "cupertino",
     "easyloading",
+    "Nodata",
     "Requset",
     "Ressponse",
-    "Succes"
+    "Succes",
+    "UNPURCHASED"
   ]
 }

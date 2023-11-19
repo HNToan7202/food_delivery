@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:food_delivery/app/feature/auth/presentation/cubit/auth_cubit.dart';
 import 'package:food_delivery/app/feature/reset_password/presentation/page/new_password_page.dart';
 import 'package:food_delivery/common/btn/btn_default.dart';
 import 'package:food_delivery/common/color_extension.dart';
@@ -7,6 +10,8 @@ import 'package:otp_pin_field/otp_pin_field.dart';
 
 class OtpPage extends StatefulWidget {
   const OtpPage({super.key});
+
+  static const routeName = "/otp";
 
   @override
   State<OtpPage> createState() => _OtpPageState();
@@ -50,7 +55,8 @@ class _OtpPageState extends State<OtpPage> {
                     onChange: (newCode) {
                       /// return the entered pin
                     },
-                    fieldWidth: 50,
+                    fieldWidth: 40,
+                    fieldHeight: 40,
 
                     /// to decorate your Otp_Pin_Field
                     otpPinFieldStyle: OtpPinFieldStyle(
@@ -67,7 +73,7 @@ class _OtpPageState extends State<OtpPage> {
 
                         /// Background Color for active/focused Otp_Pin_Field
                         ),
-                    maxLength: 4,
+                    maxLength: 6,
 
                     /// no of pin field
                     showCursor: true,
@@ -106,21 +112,27 @@ class _OtpPageState extends State<OtpPage> {
               const SizedBox(
                 height: 30,
               ),
-              BtnDefault(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  title: "Next",
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const NewPassWordPage(),
-                      ),
-                    );
-                  },
-                  decoration: BoxDecoration(
-                    color: AppColorScheme.kPrimary,
-                    borderRadius: BorderRadius.circular(28),
-                  )),
+              BlocListener<AuthCubit, AuthState>(
+                listener: (context, state) {
+                  if (state is AuthCheckOtpSuccess) {
+                    EasyLoading.dismiss();
+                    Navigator.pushNamed(context, NewPassWordPage.routeName);
+                  }
+                },
+                child: BtnDefault(
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    title: "Next",
+                    onTap: () {
+                      EasyLoading.show(status: 'loading...');
+                      // context
+                      //     .read<AuthCubit>()
+                      //     .checkOtp(_otpPinFieldController.currentState!.text);
+                    },
+                    decoration: BoxDecoration(
+                      color: AppColorScheme.kPrimary,
+                      borderRadius: BorderRadius.circular(28),
+                    )),
+              ),
             ],
           ),
         ),
