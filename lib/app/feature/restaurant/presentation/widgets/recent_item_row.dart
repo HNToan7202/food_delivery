@@ -5,7 +5,6 @@ import 'package:food_delivery/common/btn/btn_default.dart';
 import 'package:food_delivery/common/constants.dart';
 import 'package:food_delivery/common/text_theme.dart';
 import 'package:food_delivery/gen/assets.gen.dart';
-
 import '../../../../../common/color_extension.dart';
 import '../../../order/data/model/add_dish_req.dart';
 import '../../data/model/res_dish_response.dart';
@@ -13,7 +12,11 @@ import '../../data/model/res_dish_response.dart';
 class RecentItemRow extends StatelessWidget {
   final Dish dish;
   final VoidCallback onTap;
-  const RecentItemRow({super.key, required this.dish, required this.onTap});
+  const RecentItemRow({
+    super.key,
+    required this.dish,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +134,7 @@ class RecentItemRow extends StatelessWidget {
                 height: 30,
                 decoration: BoxDecoration(
                   color: AppColorScheme.white,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(5),
                   boxShadow: [
                     BoxShadow(
                       color: AppColorScheme.kPrimary.withOpacity(0.1),

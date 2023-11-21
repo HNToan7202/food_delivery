@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:food_delivery/app/feature/auth/presentation/cubit/auth_cubit.dart';
+import 'package:food_delivery/app/feature/cart/presentation/cubit/cart_cubit.dart';
 import 'package:food_delivery/app/feature/multiple_language/presentation/cubit/multiple_language_cubit.dart';
 import 'package:food_delivery/app/feature/order/presentation/cubit/order_cubit.dart';
 import 'package:food_delivery/firebase_options.dart';
@@ -34,6 +35,9 @@ void main() async {
         ),
         BlocProvider<OrderCubit>(
           create: (context) => OrderCubit(),
+        ),
+        BlocProvider<CartCubit>(
+          create: (context) => CartCubit(),
         ),
       ],
       child: const MyApp(),

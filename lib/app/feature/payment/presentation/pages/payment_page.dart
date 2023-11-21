@@ -9,6 +9,8 @@ import '../widgets/round_icon_button.dart';
 class PaymentPage extends StatefulWidget {
   const PaymentPage({super.key});
 
+  static const routeName = "/payment";
+
   @override
   State<PaymentPage> createState() => _PaymentPageState();
 }

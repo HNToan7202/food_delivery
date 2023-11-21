@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_delivery/app/feature/cart/presentation/page/cart_page.dart';
+import 'package:food_delivery/app/feature/checkout/presentation/page/checkout_page.dart';
 import 'package:food_delivery/app/feature/home/data/model/categories_req.dart';
 import 'package:food_delivery/app/feature/home/presentation/page/cubit/home_cubit.dart';
 import 'package:food_delivery/app/feature/intro/presentation/page/intro_page.dart';
 import 'package:food_delivery/app/feature/intro/presentation/page/on_boarding_page.dart';
+import 'package:food_delivery/app/feature/payment/presentation/pages/payment_page.dart';
 import 'package:food_delivery/app/feature/profile/presentation/pages/profile_page.dart';
 import 'package:food_delivery/app/feature/reset_password/presentation/page/new_password_page.dart';
 import 'package:food_delivery/app/feature/reset_password/presentation/page/otp_page.dart';
@@ -14,6 +17,7 @@ import 'package:food_delivery/app/feature/splash/presentation/page/splash_page.d
 import '../feature/home/presentation/page/nav_bar.dart';
 import '../feature/login/presentation/page/login_page.dart';
 import '../feature/menu/cubit/menu_cubit.dart';
+import '../feature/order/data/model/order_response.dart';
 import '../feature/profile/presentation/cubit/user_cubit.dart';
 import '../feature/reset_password/presentation/page/reset_password_page.dart';
 import '../feature/restaurant/data/model/restaurant_model.dart';
@@ -105,11 +109,30 @@ Route<dynamic>? Function(RouteSettings)? onGenerateRoute = (settings) {
       );
     case ProfilePage.routeName:
       return MaterialPageRoute(
-        builder: (_) => BlocProvider(
-          create: (context) => UserCubit(),
-          child: const ProfilePage(),
-        ),
+        builder: (_) => MultiBlocProvider(providers: [
+          BlocProvider<UserCubit>(
+            create: (context) => UserCubit(),
+          ),
+        ], child: const ProfilePage()),
         settings: const RouteSettings(name: ProfilePage.routeName),
+      );
+    case CheckoutPage.routeName:
+      final Order order = settings.arguments as Order;
+      return MaterialPageRoute(
+        builder: (_) => CheckoutPage(
+          order: order,
+        ),
+        settings: const RouteSettings(name: CheckoutPage.routeName),
+      );
+    case CartPage.routeName:
+      return MaterialPageRoute(
+        builder: (_) => const CartPage(),
+        settings: const RouteSettings(name: CartPage.routeName),
+      );
+    case PaymentPage.routeName:
+      return MaterialPageRoute(
+        builder: (_) => const PaymentPage(),
+        settings: const RouteSettings(name: PaymentPage.routeName),
       );
   }
   return null;

@@ -4,7 +4,6 @@ import '../../../../../core/models/common_response.dart';
 import '../../../../../di.dart';
 import '../../data/model/add_dish_req.dart';
 import '../../data/model/order_response.dart';
-import '../../data/model/order_status.dart';
 import '../../data/model/order_status_req.dart';
 import '../../data/repo/order_repository_impl.dart';
 part 'order_state.dart';
@@ -27,6 +26,9 @@ class OrderCubit extends Cubit<OrderState> {
         await locator.get<OrderRepositoryImpl>().getOrderByStatus(orderStatus);
     if (res is SuccessRessponse) {
       emit(OrderLoaded(res.data?.orders ?? []));
+    }
+    if (res.code == 20401) {
+      emit(OrderNodata());
     }
   }
 }

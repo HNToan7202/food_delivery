@@ -74,6 +74,7 @@ class Order {
   final String restaurantName;
   final String restaurantAddress;
   final String restaurantPhone;
+  final String restaurantAvatar;
 
   Order({
     required this.id,
@@ -90,6 +91,7 @@ class Order {
     required this.restaurantName,
     required this.restaurantAddress,
     required this.restaurantPhone,
+    required this.restaurantAvatar,
   });
 
   Order copyWith({
@@ -107,6 +109,7 @@ class Order {
     String? restaurantName,
     String? restaurantAddress,
     String? restaurantPhone,
+    String? restaurantAvatar,
   }) =>
       Order(
         id: id ?? this.id,
@@ -123,6 +126,7 @@ class Order {
         restaurantName: restaurantName ?? this.restaurantName,
         restaurantAddress: restaurantAddress ?? this.restaurantAddress,
         restaurantPhone: restaurantPhone ?? this.restaurantPhone,
+        restaurantAvatar: restaurantAvatar ?? this.restaurantAvatar,
       );
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
@@ -140,6 +144,7 @@ class Order {
         restaurantName: json["restaurant_name"],
         restaurantAddress: json["restaurant_address"],
         restaurantPhone: json["restaurant_phone"],
+        restaurantAvatar: json["restaurant_avatar"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -157,6 +162,7 @@ class Order {
         "restaurant_name": restaurantName,
         "restaurant_address": restaurantAddress,
         "restaurant_phone": restaurantPhone,
+        "restaurant_avatar": restaurantAvatar,
       };
 }
 

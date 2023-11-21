@@ -1,9 +1,7 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/app/feature/intro/presentation/page/intro_page.dart';
-
 import '../../../../../gen/assets.gen.dart';
-import '../../../intro/presentation/page/on_boarding_page.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});

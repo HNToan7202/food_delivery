@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:food_delivery/app/feature/order/data/model/order_status.dart';
+import 'package:food_delivery/app/feature/order/presentation/cubit/order_cubit.dart';
 import '../../../../../common/btn/btn_default.dart';
 import '../../../../../common/color_extension.dart';
 import '../../../../../common/input/input_default.dart';
@@ -12,7 +14,8 @@ import '../../../auth/data/models/user_info_request.dart';
 import '../../../auth/presentation/cubit/auth_cubit.dart';
 import '../../../home/presentation/page/nav_bar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+import '../../../order/data/model/order_status_req.dart';
+import '../../../overlay/bloc/overlay_bloc.dart';
 import '../../../reset_password/presentation/page/reset_password_page.dart';
 import '../../../sign_up/presentation/pages/sign_up_page.dart';
 import '../bloc/login_bloc.dart';
@@ -25,24 +28,46 @@ class LoginBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
-    return BlocListener<AuthCubit, AuthState>(
-      listener: (context, state) {
-        if (state is AuthLoginSuccessState) {
-          EasyLoading.dismiss();
-          GetUserInfoRequest request =
-              GetUserInfoRequest(accessToken: state.accessToken);
-          context.read<AuthCubit>().getUserInfo(request);
-          Navigator.of(context).pushNamedAndRemoveUntil(
-            NavBar.routeName,
-            (route) => false,
-          );
-        }
-        if (state is AuthLoginErrorState) {
-          EasyLoading.showError(
-            'Đăng Nhập Thất Bại!',
-          );
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<AuthCubit, AuthState>(
+          listener: (context, state) {
+            if (state is AuthLoginSuccessState) {
+              EasyLoading.dismiss();
+              GetUserInfoRequest request =
+                  GetUserInfoRequest(accessToken: state.accessToken);
+              context.read<AuthCubit>().getUserInfo(request);
+              // context.read<OrderCubit>().getOrderByStatus(OrderStatus(
+              //     page: "1",
+              //     size: '10',
+              //     status: OrderStatusState.UNPURCHASED.name));
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                NavBar.routeName,
+                (route) => false,
+              );
+            }
+            if (state is AuthLoginErrorState) {
+              EasyLoading.showError('Đăng Nhập Thất Bại!');
+            }
+          },
+        ),
+        BlocListener<LoginBloc, LoginState>(
+          listener: (context, state) {
+            // Additional login bloc listener logic if needed
+          },
+        ),
+        BlocListener<OrderCubit, OrderState>(
+          listener: (context, state) {
+            // if (state is OrderLoaded) {
+            //   print("OrderLoaded Đã load lên rồi nè");
+            //   final orders = state.orders;
+            //   var overlayBloc = OverlayBloc(orders.first);
+            //   overlayBloc.add(OverlayEvent.show);
+            // }
+            // Additional order cubit listener logic if needed
+          },
+        ),
+      ],
       child: Scaffold(
         body: SingleChildScrollView(
           child: Form(

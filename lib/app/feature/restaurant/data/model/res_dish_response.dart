@@ -1,5 +1,4 @@
 import 'package:food_delivery/core/models/common_response.dart';
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 class ResDishResponse<ResDishResponseData> extends SuccessRessponse {

@@ -1,11 +1,23 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+
 import 'package:food_delivery/common/color_extension.dart';
+import 'package:food_delivery/common/constants.dart';
 import 'package:food_delivery/gen/assets.gen.dart';
+
 import '../../../offer/presentation/widget/round_button.dart';
+import '../../../order/data/model/order_response.dart';
 import '../../../payment/presentation/widgets/add_card_view.dart';
 
 class CheckoutPage extends StatefulWidget {
-  const CheckoutPage({super.key});
+  const CheckoutPage({
+    Key? key,
+    required this.order,
+  }) : super(key: key);
+
+  static const routeName = "/checkout";
+
+  final Order order;
 
   @override
   State<CheckoutPage> createState() => _CheckoutPageState();
@@ -117,6 +129,103 @@ class _CheckoutPageState extends State<CheckoutPage> {
               Container(
                 decoration: BoxDecoration(color: AppColorScheme.textfield),
                 height: 8,
+              ),
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text("Đơn hàng",
+                        style: TextStyle(
+                            fontSize: 13, fontWeight: FontWeight.bold)),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    ListView.builder(
+                        padding: EdgeInsets.zero,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: widget.order.dishes.length,
+                        itemBuilder: ((context, index) {
+                          final dish = widget.order.dishes[index];
+                          return Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Image.asset(Assets.images.appLogo.path,
+                                        width: 50,
+                                        height: 50,
+                                        fit: BoxFit.cover),
+                                    const SizedBox(
+                                      width: 32,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(dish.dishName),
+                                        const SizedBox(
+                                          height: 8,
+                                        ),
+                                        Text(MoneyUtils.vndDong(dish.price))
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text("x${dish.quantity}"),
+                                    const SizedBox(
+                                      width: 16,
+                                    ),
+                                    const Icon(Icons.edit)
+                                  ],
+                                ),
+                              ],
+                            ),
+                          );
+                        }))
+                  ],
+                ),
+              ),
+              Container(
+                decoration: BoxDecoration(color: AppColorScheme.textfield),
+                height: 8,
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Ghi chú",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: AppColorScheme.secondaryText, fontSize: 12),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    TextField(
+                      maxLines: 3,
+                      decoration: InputDecoration(
+                          hintText: "Thêm ghi chú",
+                          hintStyle: TextStyle(
+                              color: AppColorScheme.secondaryText,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                              borderSide: BorderSide(
+                                  color: AppColorScheme.secondaryText
+                                      .withOpacity(0.2)))),
+                    ),
+                  ],
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -231,7 +340,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Sub Total",
+                          "Tạm tính",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: AppColorScheme.primaryText,
@@ -239,7 +348,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                               fontWeight: FontWeight.w500),
                         ),
                         Text(
-                          "\$68",
+                          MoneyUtils.vndDong(widget.order.totalPrice),
                           style: TextStyle(
                               color: AppColorScheme.primaryText,
                               fontSize: 13,
@@ -262,7 +371,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                               fontWeight: FontWeight.w500),
                         ),
                         Text(
-                          "\$2",
+                          MoneyUtils.vndDong(20000),
                           style: TextStyle(
                               color: AppColorScheme.primaryText,
                               fontSize: 13,
@@ -285,7 +394,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                               fontWeight: FontWeight.w500),
                         ),
                         Text(
-                          "-\$4",
+                          MoneyUtils.vndDong(20000),
                           style: TextStyle(
                               color: AppColorScheme.primaryText,
                               fontSize: 13,
@@ -315,7 +424,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                               fontWeight: FontWeight.w500),
                         ),
                         Text(
-                          "\$66",
+                          MoneyUtils.vndDong(widget.order.totalPrice),
                           style: TextStyle(
                               color: AppColorScheme.primaryText,
                               fontSize: 15,
@@ -337,14 +446,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 padding:
                     const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
                 child: RoundButton(
-                    title: "Send Order",
+                    title: "Đặt món",
                     onPressed: () {
                       // showModalBottomSheet(
                       //     context: context,
                       //     backgroundColor: Colors.transparent,
                       //     isScrollControlled: true,
                       //     builder: (context) {
-                      //       return const CheckoutMessageView();
+                      //       return Container();
                       //     });
                     }),
               ),

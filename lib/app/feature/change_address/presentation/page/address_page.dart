@@ -3,6 +3,7 @@ import 'package:food_delivery/common/color_extension.dart';
 import '../../../../../common/btn/btn_default.dart';
 import '../../../../../common/input/input_default.dart';
 import '../../../../../common/utils/bottom_sheet_utils.dart';
+import 'add_address_page.dart';
 
 class AddressPage extends StatefulWidget {
   const AddressPage({super.key});
@@ -65,7 +66,15 @@ class _AddressPageState extends State<AddressPage> {
             ),
             GestureDetector(
               onTap: () {
-                update(context: context, title: "Địa chỉ", name: "KTX Khu B");
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const AddAddressPage();
+                    },
+                  ),
+                );
+                // update(context: context, title: "Địa chỉ", name: "KTX Khu B");
               },
               child: Row(
                 children: [

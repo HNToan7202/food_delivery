@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/common/color_extension.dart';
-import 'package:food_delivery/gen/assets.gen.dart';
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({super.key});
@@ -49,53 +48,23 @@ class _NotificationPageState extends State<NotificationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.black),
+        title: Text(
+          "Thông báo",
+          style: TextStyle(
+              color: AppColorScheme.primaryText,
+              fontSize: 20,
+              fontWeight: FontWeight.w800),
+        ),
+        elevation: 0,
+        backgroundColor: AppColorScheme.white,
+      ),
       body: Padding(
         padding: const EdgeInsets.only(top: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 46,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Row(
-                children: [
-                  // IconButton(
-                  //   onPressed: () {
-                  //     Navigator.pop(context);
-                  //   },
-                  //   icon: Image.asset(Assets.images.btnBack.path,
-                  //       width: 20, height: 20),
-                  // ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Expanded(
-                    child: Text(
-                      "Notifications",
-                      style: TextStyle(
-                          color: AppColorScheme.primaryText,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w800),
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => const MyOrderView()));
-                    },
-                    icon: Image.asset(
-                      Assets.images.shoppingCart.path,
-                      width: 25,
-                      height: 25,
-                    ),
-                  ),
-                ],
-              ),
-            ),
             ListView.separated(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,

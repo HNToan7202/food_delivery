@@ -20,7 +20,7 @@ class VerifyAccountCubit extends Cubit<VerifyAccountState> {
     if (res is SuccessRessponse) {
       emit(SignUpSuccess());
     } else {
-      emit(VerifyAccountError(message: res.message ?? "Error"));
+      emit(VerifyAccountError(message: res.message));
     }
   }
 }

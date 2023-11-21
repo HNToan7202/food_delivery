@@ -55,3 +55,12 @@ class AuthForgotErrorState extends AuthState {
   final String message;
   AuthForgotErrorState({required this.message});
 }
+
+class LoadingChangePassword extends AuthState {}
+
+class UserChangePasswordSuccess extends AuthState {}
+
+class UserChangePasswordError extends AuthState {
+  final String message;
+  UserChangePasswordError({required this.message});
+}

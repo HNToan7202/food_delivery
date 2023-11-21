@@ -34,11 +34,17 @@ PODS:
     - GoogleUtilities/UserDefaults (~> 7.8)
     - nanopb (< 2.30910.0, >= 2.30908.0)
   - Flutter (1.0.0)
+  - flutter_keyboard_visibility (0.0.1):
+    - Flutter
   - flutter_timezone (0.0.1):
     - Flutter
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
+  - geocoding_ios (1.0.5):
+    - Flutter
+  - geolocator_apple (1.2.0):
+    - Flutter
   - google_maps_flutter_ios (0.0.1):
     - Flutter
     - GoogleMaps (< 8.0)
@@ -75,6 +81,8 @@ PODS:
     - nanopb/encode (= 2.30909.1)
   - nanopb/decode (2.30909.1)
   - nanopb/encode (2.30909.1)
+  - package_info_plus (0.4.5):
+    - Flutter
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -91,9 +99,13 @@ DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - Flutter (from `Flutter`)
+  - flutter_keyboard_visibility (from `.symlinks/plugins/flutter_keyboard_visibility/ios`)
   - flutter_timezone (from `.symlinks/plugins/flutter_timezone/ios`)
+  - geocoding_ios (from `.symlinks/plugins/geocoding_ios/ios`)
+  - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - google_maps_flutter_ios (from `.symlinks/plugins/google_maps_flutter_ios/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
+  - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
@@ -121,12 +133,20 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_messaging/ios"
   Flutter:
     :path: Flutter
+  flutter_keyboard_visibility:
+    :path: ".symlinks/plugins/flutter_keyboard_visibility/ios"
   flutter_timezone:
     :path: ".symlinks/plugins/flutter_timezone/ios"
+  geocoding_ios:
+    :path: ".symlinks/plugins/geocoding_ios/ios"
+  geolocator_apple:
+    :path: ".symlinks/plugins/geolocator_apple/ios"
   google_maps_flutter_ios:
     :path: ".symlinks/plugins/google_maps_flutter_ios/ios"
   image_picker_ios:
     :path: ".symlinks/plugins/image_picker_ios/ios"
+  package_info_plus:
+    :path: ".symlinks/plugins/package_info_plus/ios"
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/ios"
   shared_preferences_foundation:
@@ -144,14 +164,18 @@ SPEC CHECKSUMS:
   FirebaseInstallations: 9387bf15abfc69a714f54e54f74a251264fdb79b
   FirebaseMessaging: 80b4a086d20ed4fd385a702f4bfa920e14f5064d
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  flutter_keyboard_visibility: 0339d06371254c3eb25eeb90ba8d17dca8f9c069
   flutter_timezone: ffb07bdad3c6276af8dada0f11978d8a1f8a20bb
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
+  geocoding_ios: a389ea40f6f548de6e63006a2e31bf66ff80769a
+  geolocator_apple: cc556e6844d508c95df1e87e3ea6fa4e58c50401
   google_maps_flutter_ios: abdac20d6ce8931f6ebc5f46616df241bfaa2cfd
   GoogleDataTransport: 54dee9d48d14580407f8f5fbf2f496e92437a2f2
   GoogleMaps: 025272d5876d3b32604e5c080dc25eaf68764693
   GoogleUtilities: 0759d1a57ebb953965c2dfe0ba4c82e95ccc2e34
   image_picker_ios: 4a8aadfbb6dc30ad5141a2ce3832af9214a705b5
   nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
+  package_info_plus: 115f4ad11e0698c8c1c5d8a689390df880f47e85
   path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   shared_preferences_foundation: 5b919d13b803cadd15ed2dc053125c68730e5126

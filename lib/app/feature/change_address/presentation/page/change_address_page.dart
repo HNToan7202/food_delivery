@@ -17,7 +17,6 @@ class ChangeAddressPage extends StatefulWidget {
 
 class _ChangeAddressPageState extends State<ChangeAddressPage> {
   GoogleMapController? _controller;
-
   final locations = const [
     LatLng(10.83395, 106.79095),
   ];

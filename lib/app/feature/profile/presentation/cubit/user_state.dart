@@ -16,3 +16,8 @@ class UserUpdateError extends UserState {
   final String message;
   UserUpdateError({required this.message});
 }
+
+class UserChangePasswordError extends UserState {
+  final String message;
+  UserChangePasswordError({required this.message});
+}

@@ -1,5 +1,3 @@
-import 'package:intl/intl.dart';
-
 class ValidatorUtils {
   static String? usernameValidator(String? username) {
     if (username == null || username.isEmpty) {
@@ -67,6 +65,4 @@ class ValidatorUtils {
     }
     return null;
   }
-
-
 }

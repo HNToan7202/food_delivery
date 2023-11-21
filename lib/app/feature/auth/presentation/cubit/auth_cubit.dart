@@ -1,4 +1,4 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_delivery/app/feature/profile/data/model/change_password_request.dart';
 import 'package:food_delivery/app/feature/profile/data/repo/user_repository_impl.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import '../../../../../core/models/common_response.dart';
@@ -88,6 +88,18 @@ class AuthCubit extends Cubit<AuthState> with HydratedMixin {
         emit((state as GetDoneUserState)
             .copyWith(user: user.copyWith(phone: phone)));
       }
+    }
+  }
+
+  Future<void> changPassword(ChangePasswordReq changePasswordReq) async {
+    emit(LoadingChangePassword());
+    final res = await locator
+        .get<UserRepositoryImpl>()
+        .changePassword(requestBody: changePasswordReq);
+    if (res is SuccessRessponse) {
+      emit(UserChangePasswordSuccess());
+    } else {
+      emit(UserChangePasswordError(message: res.message));
     }
   }
 

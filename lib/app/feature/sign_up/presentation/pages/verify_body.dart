@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:food_delivery/app/feature/login/presentation/page/login_page.dart';
 import 'package:food_delivery/app/feature/sign_up/presentation/cubit/cubit/verify_account_cubit.dart';
-import 'package:food_delivery/app/feature/sign_up/presentation/cubit/sign_up_cubit.dart';
 import 'package:otp_pin_field/otp_pin_field.dart';
 
 import '../../../../../common/btn/btn_default.dart';

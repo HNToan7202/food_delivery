@@ -3,8 +3,6 @@ import 'package:food_delivery/app/feature/home/domain/entities/menu_item.dart';
 import 'package:food_delivery/common/color_extension.dart';
 import 'package:food_delivery/common/text_theme.dart';
 import 'package:food_delivery/gen/assets.gen.dart';
-
-import '../../../home/presentation/widgets/popular_resutaurant_row.dart';
 import '../widget/round_button.dart';
 
 class OfferPage extends StatefulWidget {

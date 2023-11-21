@@ -10,6 +10,7 @@ import 'package:food_delivery/app/feature/profile/presentation/pages/profile_pag
 import 'package:food_delivery/common/color_extension.dart';
 import 'package:food_delivery/gen/assets.gen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../../home/presentation/widgets/show_overlay.dart';
 import '../../domain/entities/item_more_entities.dart';
 
 class MorePage extends StatefulWidget {
@@ -114,13 +115,13 @@ class _MorePageState extends State<MorePage> {
                           MaterialPageRoute(
                               builder: (context) => const ProfilePage()));
                     },
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(
-                          vertical: 6, horizontal: 20),
-                      child: Stack(
-                        alignment: Alignment.centerRight,
-                        children: [
-                          Container(
+                    child: Stack(
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 6, horizontal: 20),
+                          child: Container(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 8, horizontal: 12),
                             decoration: BoxDecoration(
@@ -134,21 +135,26 @@ class _MorePageState extends State<MorePage> {
                                 )
                               ],
                             ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                            child: Column(
                               children: [
-                                CircleAvatar(
-                                    backgroundImage: NetworkImage(
-                                        state is GetDoneUserState
-                                            ? state.user.avatar
-                                            : "")),
-                                const SizedBox(
-                                  width: 15,
+                                SizedBox(
+                                  height: 140,
+                                  width: 140,
+                                  child: CircleAvatar(
+                                      backgroundImage: NetworkImage(
+                                    state is GetDoneUserState
+                                        ? state.user.avatar
+                                        : "",
+                                  )),
                                 ),
-                                Expanded(
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
                                   child: Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                        CrossAxisAlignment.center,
                                     children: [
                                       Text(
                                         state is GetDoneUserState
@@ -170,8 +176,7 @@ class _MorePageState extends State<MorePage> {
                                               : "",
                                           style: TextStyle(
                                               color: state is GetDoneUserState
-                                                  ? state.user?.isActive ??
-                                                          false
+                                                  ? state.user.isActive
                                                       ? AppColorScheme
                                                           .light.success
                                                       : AppColorScheme
@@ -182,25 +187,11 @@ class _MorePageState extends State<MorePage> {
                                     ],
                                   ),
                                 ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    color: AppColorScheme.inkWhite,
-                                    borderRadius: BorderRadius.circular(18),
-                                  ),
-                                  child: Image.asset(Assets.images.btnNext.path,
-                                      width: 10,
-                                      height: 10,
-                                      color: AppColorScheme.kPrimary),
-                                ),
                               ],
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   );
                 },

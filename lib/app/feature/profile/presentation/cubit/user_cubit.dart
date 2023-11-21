@@ -4,6 +4,7 @@ import 'package:food_delivery/app/feature/profile/data/repo/user_repository_impl
 
 import '../../../../../core/models/common_response.dart';
 import '../../../../../di.dart';
+import '../../data/model/change_password_request.dart';
 import '../../data/model/update_profile_req.dart';
 
 part 'user_state.dart';
@@ -23,4 +24,6 @@ class UserCubit extends Cubit<UserState> {
     }
     return false;
   }
+
+
 }

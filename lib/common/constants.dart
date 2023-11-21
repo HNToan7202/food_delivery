@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/common/color_extension.dart';
 
+const String apiKey = "AIzaSyDj1yetEGyYm68nzNFEoIHaxvlHaoRv5HA";
+
 final RegExp emailValidatorRegExp =
     RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 const String kEmailNullError = "Please Enter your email";

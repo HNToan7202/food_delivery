@@ -246,6 +246,9 @@ class $AssetsImagesGen {
   AssetGenImage get shoppingCart =>
       const AssetGenImage('assets/images/shopping_cart.png');
 
+  /// File path: assets/images/source.gif
+  AssetGenImage get source => const AssetGenImage('assets/images/source.gif');
+
   /// File path: assets/images/splash_bg.png
   AssetGenImage get splashBg =>
       const AssetGenImage('assets/images/splash_bg.png');
@@ -358,6 +361,7 @@ class $AssetsImagesGen {
         shopLogo,
         shoppingAdd,
         shoppingCart,
+        source,
         splashBg,
         tabHome,
         tabMenu,

@@ -3,9 +3,10 @@ import 'package:food_delivery/common/text_theme.dart';
 import 'package:food_delivery/gen/assets.gen.dart';
 
 import '../../../../../common/color_extension.dart';
+import '../../../restaurant/data/model/restaurant_model.dart';
 
 class MostPopularCell extends StatelessWidget {
-  final Map mObj;
+  final Restaurant? mObj;
   final VoidCallback onTap;
   const MostPopularCell({super.key, required this.mObj, required this.onTap});
 
@@ -18,20 +19,27 @@ class MostPopularCell extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.asset(
-                mObj["image"].toString(),
-                width: 220,
-                height: 130,
-                fit: BoxFit.cover,
-              ),
-            ),
+            mObj?.logo == null
+                ? Image.asset(
+                    Assets.images.logo.path,
+                    width: 220,
+                    height: 130,
+                    fit: BoxFit.cover,
+                  )
+                : ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      mObj?.logo,
+                      width: 220,
+                      height: 130,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
             const SizedBox(
               height: 8,
             ),
             Text(
-              mObj["name"],
+              mObj?.name ?? "",
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: AppColorScheme.primaryText,
@@ -45,7 +53,7 @@ class MostPopularCell extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  mObj["type"],
+                  mObj?.address ?? "",
                   textAlign: TextAlign.center,
                   style: tStyle.PrS(color: AppColorScheme.secondaryText),
                 ),
@@ -55,7 +63,7 @@ class MostPopularCell extends StatelessWidget {
                       color: AppColorScheme.kPrimary,
                     )),
                 Text(
-                  mObj["food_type"],
+                  mObj?.description ?? "",
                   textAlign: TextAlign.center,
                   style: tStyle.PrS(color: AppColorScheme.secondaryText),
                 ),
@@ -72,7 +80,7 @@ class MostPopularCell extends StatelessWidget {
                   width: 4,
                 ),
                 Text(
-                  mObj["rate"],
+                  "5",
                   textAlign: TextAlign.center,
                   style: tStyle.PrS(color: AppColorScheme.kPrimary),
                 ),

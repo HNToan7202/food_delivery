@@ -24,3 +24,10 @@ class OrderLoaded extends OrderState {
   final List<Order> orders;
   OrderLoaded(this.orders);
 }
+
+class OrderNodata extends OrderState {}
+
+class CartLoaded extends OrderState {
+  final List<Order> carts;
+  CartLoaded(this.carts);
+}

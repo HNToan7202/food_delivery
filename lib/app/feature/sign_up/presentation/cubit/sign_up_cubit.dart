@@ -1,8 +1,6 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_delivery/app/feature/sign_up/data/model/sign_up_req.dart';
-import 'package:food_delivery/app/feature/sign_up/data/model/verify_account_req.dart';
 import 'package:food_delivery/app/feature/sign_up/data/repo/account_repository_impl.dart';
 import '../../../../../core/models/common_response.dart';
 import '../../../../../di.dart';
@@ -41,9 +39,7 @@ class SignUpCubit extends Cubit<SignUpState> {
     if (res is SuccessRessponse) {
       emit(VerifyAccountLoading());
     } else {
-      emit(VerifyAccountError(message: res.message ?? "Error"));
+      emit(VerifyAccountError(message: res.message));
     }
   }
-
-
 }

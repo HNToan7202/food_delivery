@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:food_delivery/app/feature/menu/cubit/menu_cubit.dart';
 import 'package:food_delivery/app/feature/restaurant/presentation/page/res_detail_page.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../../common/color_extension.dart';
@@ -9,9 +10,11 @@ import '../../../../../gen/assets.gen.dart';
 import '../../../change_address/presentation/page/change_address_page.dart';
 import '../../../offer/presentation/widget/popular_resutaurant_row.dart';
 import '../../../restaurant/data/model/restaurant_model.dart';
+import '../../data/model/categories_response.dart';
 import '../../domain/entities/menu_item.dart';
 import '../widgets/category_cell.dart';
 import '../widgets/most_popular_cell.dart';
+import '../widgets/show_overlay.dart';
 import '../widgets/view_all_title_row.dart';
 import 'cubit/home_cubit.dart';
 
@@ -133,18 +136,22 @@ class _HomeBodyState extends State<HomeBody> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Xin chào Toan!",
+                      "Chào Nguyễn Hoàng Toàn",
                       style: TextStyle(
                           color: AppColorScheme.primaryText,
-                          fontSize: 20,
+                          fontSize: 18,
                           fontWeight: FontWeight.w800),
                     ),
                     IconButton(
                       onPressed: (() {}),
-                      icon: Image.asset(
-                        Assets.images.shoppingCart.path,
-                        width: 25,
-                        height: 25,
+                      icon: ClipRRect(
+                        borderRadius: BorderRadius.circular(25),
+                        child: Image.asset(
+                          Assets.images.logo.path,
+                          width: 60,
+                          height: 60,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     )
                   ],
@@ -219,17 +226,22 @@ class _HomeBodyState extends State<HomeBody> {
               const SizedBox(
                 height: 30,
               ),
-              SizedBox(
-                height: 140,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  itemCount: catArr.length,
-                  itemBuilder: ((context, index) {
-                    var cObj = catArr[index] as Map? ?? {};
-                    return CategoryCell(cObj: cObj, onTap: (() {}));
-                  }),
-                ),
+              BlocBuilder<MenuCubit, MenuState>(
+                builder: (context, state) {
+                  final categories = state.categories?.categories ?? [];
+                  return SizedBox(
+                    height: 140,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      itemCount: categories.length,
+                      itemBuilder: ((context, index) {
+                        Category cObj = categories[index];
+                        return CategoryCell(cObj: cObj, onTap: (() {}));
+                      }),
+                    ),
+                  );
+                },
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -238,50 +250,79 @@ class _HomeBodyState extends State<HomeBody> {
                   onView: () {},
                 ),
               ),
-              BlocBuilder<HomeCubit, HomeState>(
-                builder: (_, state) {
-                  if (state is LoadingRestaurant) {
-                    return Shimmer.fromColors(
-                      baseColor: AppColorScheme.inkGray,
-                      highlightColor: AppColorScheme.inkDarkGray,
-                      child: const ItemRestaurant(
-                        listRes: [],
-                      ),
-                    );
-                  } else {
-                    final listRes = (state as HomeGetAllRest).listRest;
-                    return ItemRestaurant(
-                      listRes: listRes,
-                    );
-                  }
-                },
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: ViewAllTitleRow(
-                  title: "Phổ biến nhất",
-                  onView: () {},
-                ),
-              ),
+              // BlocBuilder<HomeCubit, HomeState>(
+              //   builder: (_, state) {
+              //     if (state is LoadingRestaurant) {
+              //       return Shimmer.fromColors(
+              //         baseColor: AppColorScheme.inkGray,
+              //         highlightColor: AppColorScheme.inkDarkGray,
+              //         child: const ItemRestaurant(
+              //           listRes: [],
+              //         ),
+              //       );
+              //     } else {
+              //       final listRes = (state as HomeGetAllRest).listRest;
+              //       return ItemRestaurant(
+              //         listRes: listRes,
+              //       );
+              //     }
+              //   },
+              // ),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 20),
+              //   child: ViewAllTitleRow(
+              //     title: "Phổ biến nhất",
+              //     onView: () {},
+              //   ),
+              // ),
               SizedBox(
                 height: 200,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  itemCount: mostPopArr.length,
-                  itemBuilder: ((context, index) {
-                    var mObj = mostPopArr[index] as Map? ?? {};
-                    return MostPopularCell(
-                      mObj: mObj,
-                      onTap: () {},
-                    );
-                  }),
+                child: BlocBuilder<HomeCubit, HomeState>(
+                  builder: (_, state) {
+                    if (state is LoadingRestaurant) {
+                      return Shimmer.fromColors(
+                        baseColor: AppColorScheme.inkGray,
+                        highlightColor: AppColorScheme.inkDarkGray,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          itemCount: 3,
+                          itemBuilder: ((context, index) {
+                            return MostPopularCell(
+                              mObj: null,
+                              onTap: () {},
+                            );
+                          }),
+                        ),
+                      );
+                    } else {
+                      final listRes = (state as HomeGetAllRest).listRest;
+                      return ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        itemCount: listRes.length,
+                        itemBuilder: ((context, index) {
+                          Restaurant mObj = listRes[index];
+                          // var mObj = mostPopArr[index] as Map? ?? {};
+                          return MostPopularCell(
+                            mObj: mObj,
+                            onTap: () {
+                              Navigator.of(context).pushNamed(
+                                RestaurantDetailPage.routeName,
+                                arguments: mObj,
+                              );
+                            },
+                          );
+                        }),
+                      );
+                    }
+                  },
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: ViewAllTitleRow(
-                  title: "Gợi ý để bạn chọn",
+                  title: "Best seller",
                   onView: () {},
                 ),
               ),
