@@ -1,14 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 import 'dart:ffi';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
-
 import 'package:food_delivery/common/input/input_default.dart';
 import 'package:geocoding/geocoding.dart';
-
 import '../../../../../core/network_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:geocoding/geocoding.dart';
@@ -69,7 +66,9 @@ class _AddAddressPageState extends State<AddAddressPage> {
         child: Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
           icon: const Icon(Icons.arrow_back_ios),
           color: Colors.black,
         ),
@@ -102,22 +101,6 @@ class _AddAddressPageState extends State<AddAddressPage> {
                 ),
               ),
             ),
-            Divider(),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton.icon(
-                onPressed: (() {}),
-                icon: Icon(Icons.location_pin),
-                label: const Text("Use my current location"),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.black,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                ),
-              ),
-            ),
             const Divider(),
             Expanded(
               child: ListView.builder(
@@ -125,7 +108,10 @@ class _AddAddressPageState extends State<AddAddressPage> {
                   itemBuilder: ((context, index) {
                     return LocationListTile(
                       location: _predictionList[index].description!,
-                      press: () {},
+                      press: () {
+                        Navigator.pop(
+                            context, _predictionList[index].description);
+                      },
                     );
                   })),
             ),

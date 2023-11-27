@@ -1,12 +1,17 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'package:food_delivery/app/feature/order/data/model/order_response.dart';
 
 import '../../../../../common/color_extension.dart';
 import '../../../../../common/constants.dart';
 import '../../../../../common/text_theme.dart';
-import '../../../../../gen/assets.gen.dart';
+import '../../../checkout/presentation/page/checkout_page.dart';
+import '../../data/model/order_status_req.dart';
+import '../../data/model/remove_dish.dart';
+import '../cubit/order_cubit.dart';
 
 class OrderItem extends StatelessWidget {
   const OrderItem({
@@ -32,29 +37,58 @@ class OrderItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.red),
-                          borderRadius: BorderRadius.circular(16)),
-                      child: Text(
-                        "Xoá Đơn Hàng",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: AppColorScheme.kPrimary),
+                    child: GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.red),
+                            borderRadius: BorderRadius.circular(16)),
+                        child: Text(
+                          "Chi tiết",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: AppColorScheme.kPrimary),
+                        ),
                       ),
                     ),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                          color: AppColorScheme.kPrimary,
-                          borderRadius: BorderRadius.circular(16)),
-                      child: const Text("Đặt Hàng",
-                          style: TextStyle(color: AppColorScheme.inkWhite),
-                          textAlign: TextAlign.center),
-                    ),
+                    child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            CheckoutPage.routeName,
+                            arguments: orderItem,
+                          ).then((value) {
+                            if (value != null) {
+                              EasyLoading.showSuccess(
+                                  "Đặt hàng thành công, vui lòng chờ xác nhận");
+                              context.read<OrderCubit>().getOrderByStatus(
+                                    OrderStatus(
+                                      page: "1",
+                                      size: '10',
+                                      status: "UNPURCHASED",
+                                    ),
+                                  );
+                            }
+                          });
+                        },
+                        child: orderItem.status == "UNPURCHASED"
+                            ? Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                    color: AppColorScheme.kPrimary,
+                                    borderRadius: BorderRadius.circular(16)),
+                                child: const Text("Đặt Hàng",
+                                    style: TextStyle(
+                                        color: AppColorScheme.inkWhite),
+                                    textAlign: TextAlign.center),
+                              )
+                            : BtnHandler(
+                                status: orderItem.status,
+                                orderItem: orderItem,
+                              )),
                   ),
                 ],
               )
@@ -62,6 +96,41 @@ class OrderItem extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class BtnHandler extends StatelessWidget {
+  const BtnHandler({
+    Key? key,
+    required this.status,
+    required this.orderItem,
+  }) : super(key: key);
+
+  final String status;
+  final Order orderItem;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        for (int i = 0; i < orderItem.dishes.length; i++) {
+          context.read<OrderCubit>().removeDish(RemoveDishReq(
+                dishId: orderItem.dishes[i].id.toString(),
+                quantity: orderItem.dishes[i].quantity,
+              ));
+        }
+        EasyLoading.showToast("Đã hủy đơn hàng");
+      },
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+            color: AppColorScheme.kPrimary,
+            borderRadius: BorderRadius.circular(16)),
+        child: const Text("Huỷ đơn hàng",
+            style: TextStyle(color: AppColorScheme.inkWhite),
+            textAlign: TextAlign.center),
+      ),
     );
   }
 }
@@ -130,18 +199,6 @@ class OrderRow extends StatelessWidget {
                       fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(width: 16),
-                order?.status == "UNPURCHASED"
-                    ? const SizedBox()
-                    : Container(
-                        padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                            color: AppColorScheme.kPrimary,
-                            borderRadius: BorderRadius.circular(8)),
-                        child: const Text(
-                          "Paid",
-                          style: TextStyle(color: AppColorScheme.inkWhite),
-                        ),
-                      ),
               ],
             )
           ],

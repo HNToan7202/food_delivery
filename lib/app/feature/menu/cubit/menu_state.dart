@@ -1,32 +1,17 @@
 part of 'menu_cubit.dart';
 
 @immutable
-class MenuState {
-  final CategoriesResponseData? categories;
-  MenuState({
-    this.categories,
-  });
-  MenuState copyWith({
-    CategoriesResponseData? categories,
-  }) {
-    return MenuState(
-      categories: categories ?? this.categories,
-    );
-  }
-}
+class MenuState {}
 
-class MenuInitial extends MenuState {
-  MenuInitial({super.categories});
-}
+class MenuInitial extends MenuState {}
 
-class MenuErrorState extends MenuState {
-  MenuErrorState({super.categories});
-}
+class MenuErrorState extends MenuState {}
 
 class MenuLoadedState extends MenuState {
-  MenuLoadedState({super.categories});
+  final CategoriesResponseData? categories;
+  MenuLoadedState({
+    this.categories,
+  });
 }
 
-class MenuLoadingState extends MenuState {
-  MenuLoadingState({super.categories});
-}
+class MenuLoadingState extends MenuState {}

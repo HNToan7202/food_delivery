@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/services.dart';
+import 'package:food_delivery/app/feature/profile/presentation/cubit/user_cubit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,6 +17,7 @@ import 'package:food_delivery/gen/assets.gen.dart';
 import 'package:intl/intl.dart';
 import '../../../../../common/utils/bottom_sheet_utils.dart';
 import '../../../auth/data/models/logout_request.dart';
+import '../../data/model/change_avatar_req.dart';
 import '../widgets/item_profile.dart';
 
 class ProfileBody extends StatefulWidget {
@@ -34,13 +36,6 @@ class _ProfileBodyState extends State<ProfileBody> {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return;
       final imageTemporary = File(image.path);
-      //chuyển image thành base64
-      // final bytes = await imageTemporary.readAsBytes();
-      // final base64String = base64Encode(bytes);
-      // //update profile
-      // final UserProfile updatedProfile =
-      //     userProfile.copyWith(avatarBase64: base64String);
-      // UserProfileManager.updateProfile(updatedProfile);
 
       setState(() {
         this.image = imageTemporary;
@@ -59,14 +54,12 @@ class _ProfileBodyState extends State<ProfileBody> {
             if (state is GetDoneUserState) {
               // Handle GetDoneUserState
             }
-
             if (state is AuthLogOutState) {
               Navigator.of(context).pushNamedAndRemoveUntil(
                   LoginPage.routeName, (route) => false);
             }
-
             if (state is UserChangePasswordSuccess) {
-              EasyLoading.showSuccess("Đổi mật khẩu thành công");
+              EasyLoading.showToast("Đổi mật khẩu thành công");
             }
           },
         ),
@@ -116,12 +109,11 @@ class _ProfileBodyState extends State<ProfileBody> {
                                           backgroundImage: image != null
                                               ? Image.file(image!).image
                                               : NetworkImage(
-                                                  userResponseData?.avatar ??
-                                                      ""),
+                                                  userResponseData.avatar),
                                         )
                                       : CircleAvatar(
                                           backgroundImage: NetworkImage(
-                                              userResponseData?.avatar ?? ""),
+                                              userResponseData.avatar),
                                         ),
                                   // MemoryImage(profile.avatar),
                                   Positioned(
@@ -133,7 +125,15 @@ class _ProfileBodyState extends State<ProfileBody> {
                                         width: 40,
                                         child: GestureDetector(
                                           onTap: () {
-                                            pickImage();
+                                            pickImage().then((value) {
+                                              if (image != null) {
+                                                context
+                                                    .read<UserCubit>()
+                                                    .changAvatar(
+                                                        ChangeAvatarReq(
+                                                            imageFile: image!));
+                                              }
+                                            });
                                             print("OK");
                                           },
                                           child: Container(
@@ -250,17 +250,20 @@ class _ProfileBodyState extends State<ProfileBody> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            changePassword(context: context).then((value) {
-                              if (value != null) {
-                                if (value.newPassword != "" &&
-                                    value.oldPassword != "") {
-                                  EasyLoading.show(status: 'loading...');
-                                  context
-                                      .read<AuthCubit>()
-                                      .changPassword(value);
+                            changePassword(context: context).then(
+                              (value) {
+                                if (value != null) {
+                                  if (value.newPassword != "" &&
+                                      value.oldPassword != "") {
+                                    context
+                                        .read<AuthCubit>()
+                                        .changPassword(value);
+                                    EasyLoading.showToast(
+                                        "Đổi mật khẩu thành công");
+                                  }
                                 }
-                              }
-                            });
+                              },
+                            );
                           },
                           child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 15),
@@ -380,11 +383,14 @@ Future<String> update({
               ],
             ),
             BtnDefault(
-              title: "Cập nhật",
-              onTap: () {
-                Navigator.pop(context, txtName.text);
-              },
-            ),
+                title: "Cập nhật",
+                onTap: () {
+                  Navigator.pop(context, txtName.text);
+                },
+                decoration: BoxDecoration(
+                  color: AppColorScheme.kPrimary,
+                  borderRadius: BorderRadius.circular(28),
+                )),
           ],
         ),
       ),

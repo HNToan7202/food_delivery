@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:food_delivery/app/feature/cart/presentation/cubit/cart_cubit.dart';
+import 'package:food_delivery/app/feature/order/data/model/order_response.dart';
 import 'package:food_delivery/app/feature/order/presentation/cubit/order_cubit.dart';
-
 import 'package:food_delivery/app/feature/restaurant/presentation/cubit/restaurant_cubit.dart';
+import 'package:food_delivery/app/feature/restaurant/presentation/widgets/res_info.dart';
 import 'package:food_delivery/common/color_extension.dart';
+import 'package:food_delivery/common/text_theme.dart';
 import 'package:food_delivery/gen/assets.gen.dart';
 import '../../../../../common/constants.dart';
 import '../../../checkout/presentation/page/checkout_page.dart';
+import '../widgets/cart_item.dart';
 import '../widgets/recent_item_row.dart';
 import '../../data/model/restaurant_model.dart';
 import '../cubit/restaurant_state.dart';
@@ -23,7 +26,8 @@ class ResDetailBody extends StatefulWidget {
 }
 
 class _ResDetailBodyState extends State<ResDetailBody> {
-  final _orderCubit = OrderCubit();
+  int loadCart = 0;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -66,6 +70,9 @@ class _ResDetailBodyState extends State<ResDetailBody> {
                                   toastPosition:
                                       EasyLoadingToastPosition.bottom,
                                   maskType: EasyLoadingMaskType.clear);
+                              context
+                                  .read<CartCubit>()
+                                  .getCart(widget.res.name);
                             }
                           },
                         ),
@@ -86,9 +93,34 @@ class _ResDetailBodyState extends State<ResDetailBody> {
                               itemCount: restaurantState.dishes.length,
                               itemBuilder: (context, index) {
                                 var dish = restaurantState.dishes[index];
-                                return RecentItemRow(
-                                  dish: dish,
-                                  onTap: () {},
+                                return BlocBuilder<CartCubit, CartState>(
+                                  builder: (context, state) {
+                                    if (state is CartHasData) {
+                                      for (int i = 0;
+                                          i < state.order!.dishes.length;
+                                          i++) {
+                                        if (state.order?.dishes[i].id ==
+                                            dish.id) {
+                                          return RecentItemRow(
+                                            dish: dish,
+                                            item: state.order?.dishes[i]
+                                                    .quantity ??
+                                                0,
+                                            onTap: () {},
+                                          );
+                                        }
+                                      }
+                                      return RecentItemRow(
+                                        dish: dish,
+                                        onTap: () {},
+                                      );
+                                    } else {
+                                      return RecentItemRow(
+                                        dish: dish,
+                                        onTap: () {},
+                                      );
+                                    }
+                                  },
                                 );
                               },
                             );
@@ -110,7 +142,11 @@ class _ResDetailBodyState extends State<ResDetailBody> {
         ),
         BlocBuilder<CartCubit, CartState>(
           builder: (context, state) {
+            if (state is CartNoData) {
+              return const SizedBox();
+            }
             if (state is CartHasData) {
+              final order = state.order;
               return Container(
                 padding: const EdgeInsets.only(
                     bottom: 32, left: 24, right: 24, top: 16),
@@ -119,46 +155,8 @@ class _ResDetailBodyState extends State<ResDetailBody> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        showModalBottomSheet(
-                          context: context,
-                          builder: ((context) => Container()),
-                        );
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 16),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: AppColorScheme.kPrimary),
-                            borderRadius: BorderRadius.circular(5)),
-                        child: Image.asset(
-                          Assets.images.shoppingCart.path,
-                          width: 40,
-                          height: 40,
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          CheckoutPage.routeName,
-                          arguments: state.order,
-                        );
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 32, vertical: 16),
-                        decoration: BoxDecoration(
-                            color: AppColorScheme.kPrimary,
-                            borderRadius: BorderRadius.circular(5)),
-                        child: Text(
-                          "Xem đơn hàng - ${MoneyUtils.vndDong(state.order?.totalPrice ?? 0)}",
-                          style:
-                              const TextStyle(color: AppColorScheme.inkWhite),
-                        ),
-                      ),
+                    BtnCheckOut(
+                      order: order!,
                     ),
                   ],
                 ),
@@ -172,53 +170,199 @@ class _ResDetailBodyState extends State<ResDetailBody> {
   }
 }
 
-class RestaurantInfo extends StatelessWidget {
-  const RestaurantInfo({
+class BtnCheckOut extends StatefulWidget {
+  final Order order;
+  const BtnCheckOut({
     Key? key,
-    required this.widget,
+    required this.order,
   }) : super(key: key);
 
-  final ResDetailBody widget;
+  @override
+  State<BtnCheckOut> createState() => _BtnCheckOutState();
+}
 
+class _BtnCheckOutState extends State<BtnCheckOut> {
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Image.asset(Assets.images.res1.path),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(widget.res.name,
-                  style: Theme.of(context).textTheme.headline6),
-              const SizedBox(
-                height: 8,
-              ),
-              Text(widget.res.address,
-                  style: Theme.of(context).textTheme.subtitle1),
-              const SizedBox(
-                height: 8,
-              ),
-              Row(
+    return BlocBuilder<CartCubit, CartState>(
+      builder: (context, state) {
+        if (state is CartNoData) {
+          return const SizedBox();
+        }
+        return isLoading == false
+            ? Row(
                 children: [
-                  Image.asset(Assets.images.rate.path, width: 15, height: 15),
-                  const SizedBox(
-                    width: 4,
+                  GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: ((context) => Container(
+                              padding: const EdgeInsets.all(16),
+                              height: 300,
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Giỏ hàng",
+                                        style: tStyle.PrM(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text("Xoá hết",
+                                              style: tStyle.PrM(
+                                                  color:
+                                                      AppColorScheme.kPrimary)),
+                                          const SizedBox(
+                                            width: 16,
+                                          ),
+                                          Image.asset(
+                                            Assets.images.close.path,
+                                            width: 13,
+                                            height: 13,
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 16,
+                                  ),
+                                  ListView.builder(
+                                    padding: EdgeInsets.zero,
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount: widget.order.dishes.length,
+                                    itemBuilder: ((context, index) {
+                                      final dish = widget.order.dishes[index];
+                                      return CartItem(dish: dish);
+                                    }),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 8),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 24, vertical: 12),
+                                            decoration: BoxDecoration(
+                                                color: AppColorScheme.kPrimary
+                                                    .withOpacity(0.1),
+                                                borderRadius:
+                                                    BorderRadius.circular(5)),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                const Icon(Icons.shopping_cart,
+                                                    color:
+                                                        AppColorScheme.inkDark,
+                                                    size: 22),
+                                                const SizedBox(
+                                                  width: 6,
+                                                ),
+                                                Text(
+                                                  "${widget.order.dishes.length ?? 0}",
+                                                  style: tStyle.PrM(
+                                                      color: AppColorScheme
+                                                          .inkDark,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 16,
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 8),
+                                        child: BtnCheckOut(order: widget.order),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            )),
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 12),
+                      decoration: BoxDecoration(
+                          color: AppColorScheme.kPrimary.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(5)),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.shopping_cart,
+                              color: AppColorScheme.inkDark, size: 22),
+                          const SizedBox(
+                            width: 6,
+                          ),
+                          Text(
+                            "${widget.order.dishes.length ?? 0}",
+                            style: tStyle.PrM(
+                                color: AppColorScheme.inkDark,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                  Text("4.8", style: Theme.of(context).textTheme.caption),
                   const SizedBox(
-                    width: 4,
+                    width: 16,
                   ),
-                  Text("(124 Review)",
-                      style: Theme.of(context).textTheme.caption),
+                  GestureDetector(
+                    onTap: () async {
+                      Navigator.pushNamed(
+                        context,
+                        CheckoutPage.routeName,
+                        arguments: widget.order,
+                      ).then((value) {
+                        if (value == true) {
+                          setState(() {
+                            isLoading = true;
+                          });
+                        }
+                      });
+                    },
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 32, vertical: 16),
+                          decoration: BoxDecoration(
+                              color: AppColorScheme.kPrimary,
+                              borderRadius: BorderRadius.circular(5)),
+                          child: Text(
+                            "Xem đơn hàng - ${MoneyUtils.vndDong(widget.order.totalPrice)}",
+                            style:
+                                const TextStyle(color: AppColorScheme.inkWhite),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
-              ),
-            ],
-          ),
-        ),
-      ],
+              )
+            : const SizedBox();
+      },
     );
   }
 }

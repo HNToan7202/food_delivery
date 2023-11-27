@@ -31,4 +31,8 @@ class CartCubit extends Cubit<CartState> {
   void removeDishFromCart(OrderResponse orderResponse) {
     emit(CartNoData());
   }
+
+  void clearCart() {
+    emit(CartNoData());
+  }
 }

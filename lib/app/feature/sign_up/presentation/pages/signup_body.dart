@@ -9,6 +9,7 @@ import 'package:food_delivery/common/color_extension.dart';
 import 'package:food_delivery/common/input/input_default.dart';
 import 'package:food_delivery/common/text_theme.dart';
 import 'package:food_delivery/common/utils/validator_util.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../../gen/assets.gen.dart';
 
@@ -53,14 +54,17 @@ class SignUpBody extends StatelessWidget {
                     fit: BoxFit.contain,
                   ),
                   Text(
-                    "Sign Up",
+                    AppLocalizations.of(context)!.signUp,
                     style: TextStyle(
                         color: AppColorScheme.primaryText,
                         fontSize: 30,
                         fontWeight: FontWeight.w800),
                   ),
+                  const SizedBox(
+                    height: 8,
+                  ),
                   Text(
-                    "Add your details to sign up",
+                    AppLocalizations.of(context)!.detailSignUp,
                     style: TextStyle(
                         color: AppColorScheme.secondaryText,
                         fontSize: 14,
@@ -83,7 +87,7 @@ class SignUpBody extends StatelessWidget {
                           fontSize: 14,
                           fontWeight: FontWeight.w500),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(28),
+                        borderRadius: BorderRadius.circular(14),
                         borderSide: BorderSide.none,
                       ),
                       filled: true,
@@ -106,7 +110,7 @@ class SignUpBody extends StatelessWidget {
                           fontSize: 14,
                           fontWeight: FontWeight.w500),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(28),
+                        borderRadius: BorderRadius.circular(14),
                         borderSide: BorderSide.none,
                       ),
                       filled: true,
@@ -130,7 +134,7 @@ class SignUpBody extends StatelessWidget {
                           fontSize: 14,
                           fontWeight: FontWeight.w500),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(28),
+                        borderRadius: BorderRadius.circular(14),
                         borderSide: BorderSide.none,
                       ),
                       filled: true,
@@ -142,67 +146,104 @@ class SignUpBody extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  InputDefault(
-                    controller: context.read<SignUpCubit>().passwordController,
-                    validator: ValidatorUtils.passwordValidator,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 20, horizontal: 25),
-                      hintText: "Password",
-                      hintStyle: TextStyle(
-                          color: AppColorScheme.secondaryText,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(28),
-                        borderSide: BorderSide.none,
-                      ),
-                      filled: true,
-                      //fillColor: AppColorScheme.inputBg,
-                    ),
-                    // controller: txtPassword,
-                    obscureText: true,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  InputDefault(
-                    validator: (value) {
-                      if (value !=
-                          context.read<SignUpCubit>().passwordController.text) {
-                        return "Password not match";
-                      }
-                      return null;
+                  BlocBuilder<SignUpCubit, SignUpState>(
+                    builder: (context, state) {
+                      return InputDefault(
+                        controller:
+                            context.read<SignUpCubit>().passwordController,
+                        validator: ValidatorUtils.passwordValidator,
+                        obscureText: !state.isPasswordVisible,
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 20, horizontal: 25),
+                          hintText: "Password",
+                          suffixIcon: GestureDetector(
+                            onTap: () {
+                              context.read<SignUpCubit>().showPassword();
+                            },
+                            child: Image.asset(
+                              !state.isPasswordVisible
+                                  ? Assets.images.passwordIcons
+                                      .path // Hiển thị biểu tượng cho mật khẩu hiển thị
+                                  : Assets.images.hidePassword
+                                      .path, // Hiển thị biểu tượng cho mật khẩu ẩn
+                            ),
+                          ),
+                          hintStyle: TextStyle(
+                              color: AppColorScheme.secondaryText,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                            borderSide: BorderSide.none,
+                          ),
+                          filled: true,
+                          //fillColor: AppColorScheme.inputBg,
+                        ),
+                        // controller: txtPassword,
+                      );
                     },
-                    controller:
-                        context.read<SignUpCubit>().confirmPasswordController,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 20, horizontal: 25),
-                      hintText: "Confirm Password",
-                      hintStyle: TextStyle(
-                          color: AppColorScheme.secondaryText,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(28),
-                        borderSide: BorderSide.none,
-                      ),
-                      filled: true,
-                      //fillColor: AppColorScheme.inputBg,
-                    ),
-                    // controller: txtConfirmPassword,
-                    obscureText: true,
                   ),
                   const SizedBox(
                     height: 20,
+                  ),
+                  BlocBuilder<SignUpCubit, SignUpState>(
+                    builder: (context, state) {
+                      return InputDefault(
+                        validator: (value) {
+                          if (value !=
+                              context
+                                  .read<SignUpCubit>()
+                                  .passwordController
+                                  .text) {
+                            return "Password not match";
+                          }
+                          return null;
+                        },
+                        controller: context
+                            .read<SignUpCubit>()
+                            .confirmPasswordController,
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 20, horizontal: 25),
+                          hintText: "Confirm Password",
+                          suffixIcon: GestureDetector(
+                            onTap: () {
+                              context.read<SignUpCubit>().showConfirmPassword();
+                            },
+                            child: Image.asset(
+                              !state.isConfirmPasswordVisible
+                                  ? Assets.images.passwordIcons
+                                      .path // Hiển thị biểu tượng cho mật khẩu hiển thị
+                                  : Assets.images.hidePassword
+                                      .path, // Hiển thị biểu tượng cho mật khẩu ẩn
+                            ),
+                          ),
+                          hintStyle: TextStyle(
+                              color: AppColorScheme.secondaryText,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                            borderSide: BorderSide.none,
+                          ),
+                          filled: true,
+                          //fillColor: AppColorScheme.inputBg,
+                        ),
+                        // controller: txtConfirmPassword,
+                        obscureText: !state.isConfirmPasswordVisible,
+                      );
+                    },
+                  ),
+                  const SizedBox(
+                    height: 24,
                   ),
                   BtnDefault(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    title: "Sign Up",
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    title: AppLocalizations.of(context)!.signUp,
                     decoration: BoxDecoration(
                       color: AppColorScheme.kPrimary,
-                      borderRadius: BorderRadius.circular(28),
+                      borderRadius: BorderRadius.circular(14),
                     ),
                     onTap: () {
                       if (context
@@ -216,7 +257,7 @@ class SignUpBody extends StatelessWidget {
                     },
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 16,
                   ),
                   TextButton(
                     onPressed: () {
@@ -230,7 +271,7 @@ class SignUpBody extends StatelessWidget {
                             style: tStyle.PrM(
                                 color: AppColorScheme.secondaryText,
                                 fontWeight: FontWeight.w500)),
-                        Text("Login",
+                        Text(AppLocalizations.of(context)!.login,
                             style: tStyle.PrM(
                                 color: AppColorScheme.kPrimary,
                                 fontWeight: FontWeight.w700)),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:food_delivery/app/feature/order/data/model/order_status.dart';
 import 'package:food_delivery/app/feature/order/presentation/cubit/order_cubit.dart';
 import '../../../../../common/btn/btn_default.dart';
 import '../../../../../common/color_extension.dart';
@@ -14,8 +13,6 @@ import '../../../auth/data/models/user_info_request.dart';
 import '../../../auth/presentation/cubit/auth_cubit.dart';
 import '../../../home/presentation/page/nav_bar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../../../order/data/model/order_status_req.dart';
-import '../../../overlay/bloc/overlay_bloc.dart';
 import '../../../reset_password/presentation/page/reset_password_page.dart';
 import '../../../sign_up/presentation/pages/sign_up_page.dart';
 import '../bloc/login_bloc.dart';
@@ -104,7 +101,7 @@ class LoginBody extends StatelessWidget {
                       hintStyle:
                           tStyle.PrM(color: AppColorScheme.secondaryText),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(28),
+                        borderRadius: BorderRadius.circular(14),
                         borderSide: BorderSide.none,
                       ),
                       filled: true,
@@ -148,7 +145,7 @@ class LoginBody extends StatelessWidget {
                           hintStyle:
                               tStyle.PrM(color: AppColorScheme.secondaryText),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(28),
+                            borderRadius: BorderRadius.circular(14),
                             borderSide: BorderSide.none,
                           ),
                           filled: true,
@@ -159,14 +156,14 @@ class LoginBody extends StatelessWidget {
                     },
                   ),
                   const SizedBox(
-                    height: 25,
+                    height: 32,
                   ),
                   BtnDefault(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    padding: const EdgeInsets.symmetric(vertical: 18),
                     title: AppLocalizations.of(context)!.login,
                     decoration: BoxDecoration(
                       color: AppColorScheme.kPrimary,
-                      borderRadius: BorderRadius.circular(28),
+                      borderRadius: BorderRadius.circular(14),
                     ),
                     onTap: () {
                       if (_formKey.currentState!.validate()) {
@@ -220,9 +217,12 @@ class LoginBody extends StatelessWidget {
                         child: BtnDefault(
                           decoration: BoxDecoration(
                             color: const Color(0xff367FC0),
-                            borderRadius: BorderRadius.circular(28),
+                            borderRadius: BorderRadius.circular(14),
                           ),
-                          onTap: () {},
+                          onTap: () {
+                            EasyLoading.showToast("Chức năng đang phát triển",
+                                toastPosition: EasyLoadingToastPosition.bottom);
+                          },
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -254,9 +254,12 @@ class LoginBody extends StatelessWidget {
                           //icon: "assets/img/google_logo.png",
                           decoration: BoxDecoration(
                             color: const Color(0xffDD4B39),
-                            borderRadius: BorderRadius.circular(28),
+                            borderRadius: BorderRadius.circular(14),
                           ),
-                          onTap: () {},
+                          onTap: () {
+                            EasyLoading.showToast("Chức năng đang phát triển",
+                                toastPosition: EasyLoadingToastPosition.bottom);
+                          },
                           //icon: "assets/img/google_logo.png",
                           child: Row(
                             mainAxisSize: MainAxisSize.min,

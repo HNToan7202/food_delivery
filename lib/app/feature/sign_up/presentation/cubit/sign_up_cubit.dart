@@ -42,4 +42,13 @@ class SignUpCubit extends Cubit<SignUpState> {
       emit(VerifyAccountError(message: res.message));
     }
   }
+
+  void showPassword() {
+    emit(state.copyWith(isPasswordVisible: !state.isPasswordVisible));
+  }
+
+  void showConfirmPassword() {
+    emit(state.copyWith(
+        isConfirmPasswordVisible: !state.isConfirmPasswordVisible));
+  }
 }

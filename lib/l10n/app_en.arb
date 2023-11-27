@@ -34,5 +34,19 @@
   "save": "Save",
   "hintSearch": "What would you like to eat?",
   "manageProfile": "Manage profile",
-  "orLoginWith": "Or login with"
+  "orLoginWith": "Or login with",
+  "send": "Send",
+  "pleaseEnterYourEmail": "Please enter your email to receive a link to create a new password via email",
+  "sub1": "Discover the best foods from over 1,000\nrestaurants and fast delivery to your\ndoorstep",
+  "sub2": "Fast food delivery to your home, office\n wherever you are",
+  "sub3": "Real time tracking of your food on the app\nonce you placed the order",
+  "next": "Next",
+  "createAccount": "Create an account",
+  "welcome": "Discover the best foods from over 1,000\nrestaurants and fast delivery to your\ndoorstep",
+  "detailSignUp": "Add your details to sign up",
+  "homeTab": "Home",
+  "orderTab": "Order",
+  "searchTab": "Search  ",
+  "notificationTab": "Notify",
+  "moreTab": "More"
 }

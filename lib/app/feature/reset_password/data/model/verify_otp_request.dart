@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import '../../../../../core/models/common_request_body.dart';
 
 class CheckOtpReq extends CommonRequsetBody {

@@ -34,5 +34,19 @@
   "save": "Lưu",
   "hintSearch": "Bạn muốn ăn gì ?",
   "manageProfile": "Quản lý tài khoản",
-  "orLoginWith": "Hoặc đăng nhập với"
+  "orLoginWith": "Hoặc đăng nhập với",
+  "send": "Gửi",
+  "pleaseEnterYourEmail": "Vui lòng nhập email của bạn để chúng tôi gửi mật khẩu mới cho bạn",
+  "sub1": "Khám phá những món ăn ngon nhất từ ​​hơn 1.000\nnhà hàng và giao hàng nhanh chóng đến tận nhà\ncủa bạn",
+  "sub2": "Giao đồ ăn nhanh đến nhà, văn phòng\n mọi lúc mọi nơi",
+  "sub3": "Theo dõi thời gian thực về món ăn của bạn trên ứng dụng\nằm sau khi bạn đặt hàng",
+  "next": "Tiếp theo",
+  "createAccount": "Tạo tài khoản mới",
+  "welcome": "Khám phá những món ăn ngon nhất từ ​​hơn 1.000\nnhà hàng và giao hàng nhanh chóng đến tận nhà\ncủa bạn",
+  "detailSignUp": "Nhập thông tin của bạn để tạo tài khoản",
+  "homeTab": "Trang chủ",
+  "orderTab": "Đơn hàng",
+  "searchTab": "Tìm kiếm",
+  "notificationTab": "Thông báo",
+  "moreTab": "Thêm"
 }

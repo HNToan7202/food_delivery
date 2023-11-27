@@ -11,10 +11,8 @@ import '../../../change_address/presentation/page/change_address_page.dart';
 import '../../../offer/presentation/widget/popular_resutaurant_row.dart';
 import '../../../restaurant/data/model/restaurant_model.dart';
 import '../../data/model/categories_response.dart';
-import '../../domain/entities/menu_item.dart';
 import '../widgets/category_cell.dart';
 import '../widgets/most_popular_cell.dart';
-import '../widgets/show_overlay.dart';
 import '../widgets/view_all_title_row.dart';
 import 'cubit/home_cubit.dart';
 
@@ -28,94 +26,9 @@ class HomeBody extends StatefulWidget {
 class _HomeBodyState extends State<HomeBody> {
   TextEditingController txtSearch = TextEditingController();
 
-  List catArr = [
-    {"image": Assets.images.catOffer.path, "name": "Đồ Ăn Nhanh"},
-    {"image": Assets.images.catSri.path, "name": "Cháo/Soup"},
-    {"image": Assets.images.cat3.path, "name": "Tráng Miệng"},
-    {"image": Assets.images.cat4.path, "name": "Bún/Phở/Mì"},
-  ];
-
-  List popArr = [
-    {
-      "image": Assets.images.res1.path,
-      "name": "Súp Cua Mộc",
-      "rate": "4.9",
-      "rating": "124",
-      "type": "Cafa",
-      "food_type": "Đồ Ăn Nhanh"
-    },
-    {
-      "image": Assets.images.res2.path,
-      "name": "Trang Anh Food",
-      "rate": "4.9",
-      "rating": "124",
-      "type": "Cafa",
-      "food_type": "Western Food"
-    },
-    {
-      "image": Assets.images.res3.path,
-      "name": "Bán Mì Khánh Mập",
-      "rate": "4.9",
-      "rating": "124",
-      "type": "Cafa",
-      "food_type": "Western Food"
-    },
-  ];
-
-  List mostPopArr = [
-    {
-      "image": Assets.images.mRes1.path,
-      "name": "Kin Piza",
-      "rate": "4.9",
-      "rating": "124",
-      "type": "Món quốc tế",
-      "food_type": "Thức Ăn Nhanh"
-    },
-    {
-      "image": Assets.images.mRes2.path,
-      "name": "Bánh mì kẹp",
-      "rate": "4.9",
-      "rating": "124",
-      "type": "Bánh mì ngon",
-      "food_type": "Ăn vặt"
-    },
-  ];
-
-  List recentArr = [
-    {
-      "image": Assets.images.item1.path,
-      "name": "Pizza Kido",
-      "rate": "4.9",
-      "rating": "124",
-      "type": "Cafa",
-      "food_type": "Western Food"
-    },
-    {
-      "image": Assets.images.item2.path,
-      "name": "Highlands Coffe",
-      "rate": "4.9",
-      "rating": "124",
-      "type": "Cafa",
-      "food_type": "Western Food"
-    },
-    {
-      "image": Assets.images.item3.path,
-      "name": "Cơm kiến quốc",
-      "rate": "4.9",
-      "rating": "124",
-      "type": "Cafa",
-      "food_type": "Western Food"
-    },
-  ];
-
-  void loadData() {
-    popArr = popArr.map((e) => MenuItems.fromJson(e)).toList();
-  }
-
   @override
   void initState() {
     super.initState();
-    loadData();
   }
 
   @override
@@ -226,21 +139,61 @@ class _HomeBodyState extends State<HomeBody> {
               const SizedBox(
                 height: 30,
               ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.asset(
+                    Assets.images.introHome.path,
+                    height: 200,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: ViewAllTitleRow(
+                  title: "Danh mục",
+                  onView: () {},
+                ),
+              ),
               BlocBuilder<MenuCubit, MenuState>(
                 builder: (context, state) {
-                  final categories = state.categories?.categories ?? [];
-                  return SizedBox(
-                    height: 140,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      itemCount: categories.length,
-                      itemBuilder: ((context, index) {
-                        Category cObj = categories[index];
-                        return CategoryCell(cObj: cObj, onTap: (() {}));
-                      }),
-                    ),
-                  );
+                  if (state is MenuLoadingState) {
+                    return Shimmer.fromColors(
+                      baseColor: AppColorScheme.inkGray,
+                      highlightColor: AppColorScheme.inkDarkGray,
+                      child: SizedBox(
+                        height: 140,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          itemCount: 3,
+                          itemBuilder: ((context, index) {
+                            return const ItemCate(
+                              cObj: null,
+                            );
+                          }),
+                        ),
+                      ),
+                    );
+                  } else if (state is MenuLoadedState) {
+                    final categories = (state).categories?.categories ?? [];
+                    return SizedBox(
+                      height: 140,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        itemCount: categories.length,
+                        itemBuilder: ((context, index) {
+                          Category cObj = categories[index];
+                          return CategoryCell(cObj: cObj, onTap: (() {}));
+                        }),
+                      ),
+                    );
+                  }
+                  return const SizedBox();
                 },
               ),
               Padding(
@@ -250,31 +203,6 @@ class _HomeBodyState extends State<HomeBody> {
                   onView: () {},
                 ),
               ),
-              // BlocBuilder<HomeCubit, HomeState>(
-              //   builder: (_, state) {
-              //     if (state is LoadingRestaurant) {
-              //       return Shimmer.fromColors(
-              //         baseColor: AppColorScheme.inkGray,
-              //         highlightColor: AppColorScheme.inkDarkGray,
-              //         child: const ItemRestaurant(
-              //           listRes: [],
-              //         ),
-              //       );
-              //     } else {
-              //       final listRes = (state as HomeGetAllRest).listRest;
-              //       return ItemRestaurant(
-              //         listRes: listRes,
-              //       );
-              //     }
-              //   },
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(horizontal: 20),
-              //   child: ViewAllTitleRow(
-              //     title: "Phổ biến nhất",
-              //     onView: () {},
-              //   ),
-              // ),
               SizedBox(
                 height: 200,
                 child: BlocBuilder<HomeCubit, HomeState>(
@@ -295,8 +223,8 @@ class _HomeBodyState extends State<HomeBody> {
                           }),
                         ),
                       );
-                    } else {
-                      final listRes = (state as HomeGetAllRest).listRest;
+                    } else if (state is HomeGetAllRest) {
+                      final listRes = (state).listRest;
                       return ListView.builder(
                         scrollDirection: Axis.horizontal,
                         padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -316,6 +244,7 @@ class _HomeBodyState extends State<HomeBody> {
                         }),
                       );
                     }
+                    return const SizedBox();
                   },
                 ),
               ),

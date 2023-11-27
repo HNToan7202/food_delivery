@@ -21,3 +21,7 @@ class UserChangePasswordError extends UserState {
   final String message;
   UserChangePasswordError({required this.message});
 }
+
+class ChangeAvatarSuccess extends UserState {}
+
+class ChangeAvatarError extends UserState {}

@@ -18,6 +18,9 @@ import '../feature/home/presentation/page/nav_bar.dart';
 import '../feature/login/presentation/page/login_page.dart';
 import '../feature/menu/cubit/menu_cubit.dart';
 import '../feature/order/data/model/order_response.dart';
+import '../feature/order/data/model/order_status.dart';
+import '../feature/order/data/model/order_status_req.dart';
+import '../feature/order/presentation/cubit/order_cubit.dart';
 import '../feature/profile/presentation/cubit/user_cubit.dart';
 import '../feature/reset_password/presentation/page/reset_password_page.dart';
 import '../feature/restaurant/data/model/restaurant_model.dart';
@@ -66,6 +69,13 @@ Route<dynamic>? Function(RouteSettings)? onGenerateRoute = (settings) {
               create: (context) =>
                   HomeCubit()..getAllRestaurant(RestaurantReq()),
             ),
+            BlocProvider<OrderCubit>(
+              create: (context) => OrderCubit()
+                ..getOrderByStatus(OrderStatus(
+                    page: "1",
+                    size: "10",
+                    status: OrderStatusState.UNPURCHASED.name)),
+            ),
           ],
           child: const NavBar(),
         ),
@@ -82,13 +92,19 @@ Route<dynamic>? Function(RouteSettings)? onGenerateRoute = (settings) {
         settings: const RouteSettings(name: IntroPage.routeName),
       );
     case OtpPage.routeName:
+      final OtpPageArg arg = settings.arguments as OtpPageArg;
       return MaterialPageRoute(
-        builder: (_) => const OtpPage(),
+        builder: (_) => OtpPage(
+          arg: arg,
+        ),
         settings: const RouteSettings(name: OtpPage.routeName),
       );
     case NewPassWordPage.routeName:
+      final OtpPageArg arg = settings.arguments as OtpPageArg;
       return MaterialPageRoute(
-        builder: (_) => const NewPassWordPage(),
+        builder: (_) => NewPassWordPage(
+          arg: arg,
+        ),
         settings: const RouteSettings(name: NewPassWordPage.routeName),
       );
     case VerifyAccountPage.routeName:
