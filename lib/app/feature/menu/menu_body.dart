@@ -43,96 +43,104 @@ class _MenuBodyState extends State<MenuBody> {
     return BlocConsumer<MenuCubit, MenuState>(
       listener: (context, state) {},
       builder: (context, state) {
-        final categories = state.categories?.categories ?? [];
-        return Stack(
-          alignment: Alignment.centerLeft,
-          children: [
-            Container(
-              margin: const EdgeInsets.only(top: 190),
-              width: media.width * 0.25,
-              height: media.height * 0.6,
-              decoration: BoxDecoration(
-                color: AppColorScheme.kPrimary,
-                borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(35),
-                    bottomRight: Radius.circular(35)),
+        if (state is MenuLoadingState) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else {
+          final categories =
+              (state as MenuLoadedState).categories?.categories ?? [];
+          return Stack(
+            alignment: Alignment.centerLeft,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(top: 190),
+                width: media.width * 0.25,
+                height: media.height * 0.6,
+                decoration: BoxDecoration(
+                  color: AppColorScheme.kPrimary,
+                  borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(35),
+                      bottomRight: Radius.circular(35)),
+                ),
               ),
-            ),
-            SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 46,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Menu",
-                            style: TextStyle(
-                                color: AppColorScheme.primaryText,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w800),
-                          ),
-                          IconButton(
-                            onPressed: (() {}),
-                            icon: Image.asset(
-                              Assets.images.shoppingCart.path,
-                              width: 25,
-                              height: 25,
-                            ),
-                          )
-                        ],
+              SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 46,
                       ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: RoundTextfield(
-                        hintText: "Tìm kiếm",
-                        //controller: txtSearch,
-                        left: Container(
-                          alignment: Alignment.center,
-                          width: 30,
-                          child: Image.asset(
-                            Assets.images.search.path,
-                            width: 20,
-                            height: 20,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Menu",
+                              style: TextStyle(
+                                  color: AppColorScheme.primaryText,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w800),
+                            ),
+                            IconButton(
+                              onPressed: (() {}),
+                              icon: Image.asset(
+                                Assets.images.shoppingCart.path,
+                                width: 25,
+                                height: 25,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: RoundTextfield(
+                          hintText: "Tìm kiếm",
+                          //controller: txtSearch,
+                          left: Container(
+                            alignment: Alignment.center,
+                            width: 30,
+                            child: Image.asset(
+                              Assets.images.search.path,
+                              width: 20,
+                              height: 20,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 500,
-                      child: ListView.builder(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 30),
-                          itemCount: categories.length,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: ((context, index) {
-                            Category mObj = categories[index];
-                            return (isLoading == false
-                                ? Shimmer.fromColors(
-                                    baseColor: AppColorScheme.inkGray,
-                                    highlightColor: AppColorScheme.inkDarkGray,
-                                    enabled: true,
-                                    child: ListMenu(mObj: mObj, media: media),
-                                  )
-                                : ListMenu(mObj: mObj, media: media));
-                          })),
-                    ),
-                  ],
+                      SizedBox(
+                        height: 500,
+                        child: ListView.builder(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 30),
+                            itemCount: categories.length,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: ((context, index) {
+                              Category mObj = categories[index];
+                              return (isLoading == false
+                                  ? Shimmer.fromColors(
+                                      baseColor: AppColorScheme.inkGray,
+                                      highlightColor:
+                                          AppColorScheme.inkDarkGray,
+                                      enabled: true,
+                                      child: ListMenu(mObj: mObj, media: media),
+                                    )
+                                  : ListMenu(mObj: mObj, media: media));
+                            })),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
-        );
+            ],
+          );
+        }
       },
     );
   }

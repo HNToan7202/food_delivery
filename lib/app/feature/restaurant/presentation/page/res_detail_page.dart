@@ -27,8 +27,16 @@ class RestaurantDetailPage extends StatelessWidget {
       ],
       child: Scaffold(
         appBar: AppBar(
-          title: Text(res.name),
-          backgroundColor: AppColorScheme.kPrimary,
+          leading: IconButton(
+            icon:
+                const Icon(Icons.arrow_back_ios, color: AppColorScheme.inkDark),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          elevation: 0,
+          title: Text(res.name, style: Theme.of(context).textTheme.headline6),
+          backgroundColor: AppColorScheme.white,
         ),
         body: ResDetailBody(
           res: res,

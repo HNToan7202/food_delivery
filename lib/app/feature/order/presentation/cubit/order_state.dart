@@ -31,3 +31,7 @@ class CartLoaded extends OrderState {
   final List<Order> carts;
   CartLoaded(this.carts);
 }
+
+class ConfirmOrderSuccess extends OrderState {}
+
+class RemoveDishSuccess extends OrderState {}

@@ -3,15 +3,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:food_delivery/app/feature/auth/presentation/cubit/auth_cubit.dart';
 import 'package:food_delivery/app/feature/reset_password/presentation/page/new_password_page.dart';
+import 'package:food_delivery/app/feature/reset_password/presentation/page/reset_password_page.dart';
 import 'package:food_delivery/common/btn/btn_default.dart';
 import 'package:food_delivery/common/color_extension.dart';
 import 'package:food_delivery/common/text_theme.dart';
 import 'package:otp_pin_field/otp_pin_field.dart';
 
+class OtpPageArg {
+  final String email;
+  final String otp;
+
+  OtpPageArg({required this.email, required this.otp});
+}
+
 class OtpPage extends StatefulWidget {
-  const OtpPage({super.key});
+  const OtpPage({super.key, required this.arg});
 
   static const routeName = "/otp";
+  final OtpPageArg arg;
 
   @override
   State<OtpPage> createState() => _OtpPageState();
@@ -123,10 +132,16 @@ class _OtpPageState extends State<OtpPage> {
                     padding: const EdgeInsets.symmetric(vertical: 20),
                     title: "Next",
                     onTap: () {
-                      EasyLoading.show(status: 'loading...');
-                      // context
-                      //     .read<AuthCubit>()
-                      //     .checkOtp(_otpPinFieldController.currentState!.text);
+                      if (_otpPinFieldController.currentState!.text ==
+                          widget.arg.otp) {
+                        EasyLoading.show(status: 'loading...');
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                            NewPassWordPage.routeName,
+                            arguments: widget.arg,
+                            (route) => false);
+                      } else {
+                        EasyLoading.showError("OTP is not correct");
+                      }
                     },
                     decoration: BoxDecoration(
                       color: AppColorScheme.kPrimary,

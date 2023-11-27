@@ -56,20 +56,17 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     List pageArr = [
       {
         "title": AppLocalizations.of(context)!.findFoodYouLove,
-        "subtitle":
-            "Discover the best foods from over 1,000\nrestaurants and fast delivery to your\ndoorstep",
+        "subtitle": AppLocalizations.of(context)!.sub1,
         "image": Assets.images.onBoarding1.path,
       },
       {
         "title": AppLocalizations.of(context)!.fastDelivery,
-        "subtitle":
-            "Fast food delivery to your home, office\n wherever you are",
+        "subtitle": AppLocalizations.of(context)!.sub2,
         "image": Assets.images.onBoarding2.path,
       },
       {
         "title": AppLocalizations.of(context)!.liveTracking,
-        "subtitle":
-            "Real time tracking of your food on the app\nonce you placed the order",
+        "subtitle": AppLocalizations.of(context)!.sub3,
         "image": Assets.images.onBoarding3.path,
       },
     ];
@@ -154,7 +151,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                       color: AppColorScheme.kPrimary,
                       borderRadius: BorderRadius.circular(28),
                     ),
-                    title: "Next",
+                    title: AppLocalizations.of(context)!.next,
                     onTap: () {
                       if (selectPage >= 2) {
                         // Home Screen

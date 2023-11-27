@@ -122,6 +122,10 @@ Future<ChangePasswordReq> changePassword({
                 ],
               ),
               BtnDefault(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(14),
+                  color: AppColorScheme.kPrimary,
+                ),
                 title: "Cập nhật",
                 onTap: () {
                   if (key.currentState!.validate()) {

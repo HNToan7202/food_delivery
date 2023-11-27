@@ -84,6 +84,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/check.png
   AssetGenImage get check => const AssetGenImage('assets/images/check.png');
 
+  /// File path: assets/images/close.png
+  AssetGenImage get close => const AssetGenImage('assets/images/close.png');
+
   /// File path: assets/images/dess_1.png
   AssetGenImage get dess1 => const AssetGenImage('assets/images/dess_1.png');
 
@@ -130,6 +133,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/hide_password.png
   AssetGenImage get hidePassword =>
       const AssetGenImage('assets/images/hide_password.png');
+
+  /// File path: assets/images/introHome.gif
+  AssetGenImage get introHome =>
+      const AssetGenImage('assets/images/introHome.gif');
 
   /// File path: assets/images/item_1.png
   AssetGenImage get item1 => const AssetGenImage('assets/images/item_1.png');
@@ -234,6 +241,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/search.png
   AssetGenImage get search => const AssetGenImage('assets/images/search.png');
 
+  /// File path: assets/images/shimmer_seach.gif
+  AssetGenImage get shimmerSeach =>
+      const AssetGenImage('assets/images/shimmer_seach.gif');
+
   /// File path: assets/images/shop_logo.png
   AssetGenImage get shopLogo =>
       const AssetGenImage('assets/images/shop_logo.png');
@@ -314,6 +325,7 @@ class $AssetsImagesGen {
         catOffer,
         catSri,
         check,
+        close,
         dess1,
         dess2,
         dess3,
@@ -327,6 +339,7 @@ class $AssetsImagesGen {
         giphy,
         googleLogo,
         hidePassword,
+        introHome,
         item1,
         item2,
         item3,
@@ -358,6 +371,7 @@ class $AssetsImagesGen {
         res2,
         res3,
         search,
+        shimmerSeach,
         shopLogo,
         shoppingAdd,
         shoppingCart,

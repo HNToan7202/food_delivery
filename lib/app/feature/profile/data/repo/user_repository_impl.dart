@@ -11,6 +11,7 @@ import 'package:food_delivery/core/models/common_response.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import '../../../../../core/base_url.dart';
 import '../../../../../core/service/api_service_impl.dart';
+import '../model/change_avt.dart';
 
 class UserRepositoryImpl implements UserRepository {
   final ApiServiceImpl service;
@@ -38,31 +39,11 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<String> updateAvatar({required ChangeAvatarReq requestBody}) async {
-    Dio dio = Dio();
-    Response response;
-    String fileName = requestBody.imageFile.path.split('/').last;
-    var data = FormData.fromMap({
-      "files": [
-        await MultipartFile.fromFile(
-          requestBody.imageFile.path,
-          filename: fileName,
-        )
-      ]
-    });
-    final Dio dioX = dio
-      ..interceptors.add(PrettyDioLogger(
-        requestHeader: true,
-        requestBody: true,
-      ));
-    response = await dioX.put(
-      "$BASE_URL/v1/auth/change-avatar",
-      data: data,
-    );
-    if (response.statusCode == 200) {
-      print(json.encode(response.data));
-      return "ok";
-    }
-    return "error";
+  Future<CommonResponse> updateAvatar(
+      {required ChangeAvatar requestBody}) async {
+    return service.put<ChangeAvatar, Object>(
+        path: "$BASE_URL/v1/auth/change-password",
+        requestBody: requestBody,
+        tFromMap: null);
   }
 }

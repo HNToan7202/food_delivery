@@ -171,25 +171,28 @@ class Dish {
   final String dishName;
   final double price;
   final int quantity;
+  final String image;
 
   Dish({
     required this.id,
     required this.dishName,
     required this.price,
     required this.quantity,
+    required this.image,
   });
 
-  Dish copyWith({
-    String? id,
-    String? dishName,
-    double? price,
-    int? quantity,
-  }) =>
+  Dish copyWith(
+          {String? id,
+          String? dishName,
+          double? price,
+          int? quantity,
+          String? image}) =>
       Dish(
         id: id ?? this.id,
         dishName: dishName ?? this.dishName,
         price: price ?? this.price,
         quantity: quantity ?? this.quantity,
+        image: image ?? this.image,
       );
 
   factory Dish.fromJson(Map<String, dynamic> json) => Dish(
@@ -197,6 +200,7 @@ class Dish {
         dishName: json["dish_name"],
         price: json["price"],
         quantity: json["quantity"],
+        image: json["image"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -204,5 +208,6 @@ class Dish {
         "dish_name": dishName,
         "price": price,
         "quantity": quantity,
+        "image": image,
       };
 }

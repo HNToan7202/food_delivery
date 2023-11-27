@@ -1,22 +1,25 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_delivery/app/feature/order/presentation/cubit/order_cubit.dart';
+import 'package:food_delivery/app/feature/restaurant/data/model/res_dish_response.dart';
 import 'package:food_delivery/common/btn/btn_default.dart';
 import 'package:food_delivery/common/constants.dart';
 import 'package:food_delivery/common/text_theme.dart';
 import 'package:food_delivery/gen/assets.gen.dart';
 import '../../../../../common/color_extension.dart';
 import '../../../order/data/model/add_dish_req.dart';
-import '../../data/model/res_dish_response.dart';
 
 class RecentItemRow extends StatelessWidget {
   final Dish dish;
+  final int item;
   final VoidCallback onTap;
   const RecentItemRow({
-    super.key,
+    Key? key,
     required this.dish,
+    this.item = 0,
     required this.onTap,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -111,44 +114,92 @@ class RecentItemRow extends StatelessWidget {
                 ],
               ),
             ),
-            GestureDetector(
-              onTap: () async {
-                final AddDishReq? addDishReq =
-                    await showModalBottomSheet<AddDishReq>(
-                        context: context,
-                        builder: ((context) {
-                          return addDishPage(dish: dish);
-                        })).then((value) {
-                  if (value != null) {
-                    context.read<OrderCubit>().addDishToOrder(value);
-                  }
-                });
-                // if (addDishReq != null) {
-                //   print(
-                //       "Dish:  ${addDishReq.dishId} Quantity ${addDishReq.quantity}");
-                //   context.read<OrderCubit>().addDishToOrder(addDishReq);
-                // }
-              },
-              child: Container(
-                width: 30,
-                height: 30,
-                decoration: BoxDecoration(
-                  color: AppColorScheme.white,
-                  borderRadius: BorderRadius.circular(5),
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColorScheme.kPrimary.withOpacity(0.1),
-                      spreadRadius: 1,
-                      blurRadius: 1,
-                      offset: const Offset(0, 1),
+            Row(
+              children: [
+                item > 0
+                    ? Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () async {
+                              final AddDishReq? addDishReq =
+                                  await showModalBottomSheet<AddDishReq>(
+                                      context: context,
+                                      builder: ((context) {
+                                        return addDishPage(dish: dish);
+                                      })).then((value) {
+                                if (value != null) {
+                                  context
+                                      .read<OrderCubit>()
+                                      .addDishToOrder(value);
+                                }
+                              });
+                            },
+                            child: Container(
+                              width: 30,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                color: AppColorScheme.white,
+                                borderRadius: BorderRadius.circular(5),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AppColorScheme.kPrimary
+                                        .withOpacity(0.1),
+                                    spreadRadius: 1,
+                                    blurRadius: 1,
+                                    offset: const Offset(0, 1),
+                                  ),
+                                ],
+                              ),
+                              child: const Icon(
+                                Icons.add,
+                                color: Colors.orange,
+                              ),
+                            ),
+                          ),
+                          Text("$item"),
+                        ],
+                      )
+                    : const SizedBox(),
+                GestureDetector(
+                  onTap: () async {
+                    final AddDishReq? addDishReq =
+                        await showModalBottomSheet<AddDishReq>(
+                            context: context,
+                            builder: ((context) {
+                              return addDishPage(dish: dish);
+                            })).then((value) {
+                      if (value != null) {
+                        context.read<OrderCubit>().addDishToOrder(value);
+                      }
+                    });
+                    // if (addDishReq != null) {
+                    //   print(
+                    //       "Dish:  ${addDishReq.dishId} Quantity ${addDishReq.quantity}");
+                    //   context.read<OrderCubit>().addDishToOrder(addDishReq);
+                    // }
+                  },
+                  child: Container(
+                    width: 30,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      color: AppColorScheme.white,
+                      borderRadius: BorderRadius.circular(5),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColorScheme.kPrimary.withOpacity(0.1),
+                          spreadRadius: 1,
+                          blurRadius: 1,
+                          offset: const Offset(0, 1),
+                        ),
+                      ],
                     ),
-                  ],
+                    child: const Icon(
+                      Icons.add,
+                      color: Colors.orange,
+                    ),
+                  ),
                 ),
-                child: const Icon(
-                  Icons.add,
-                  color: Colors.orange,
-                ),
-              ),
+              ],
             )
           ],
         ),
@@ -268,7 +319,7 @@ class _addDishPageState extends State<addDishPage> {
                   ],
                 ),
                 const Spacer(),
-                Text(MoneyUtils.vndDong(widget.dish.price),
+                Text(MoneyUtils.vndDong(widget.dish.price * quantity),
                     style: tStyle.PrL(color: AppColorScheme.kPrimary)),
               ],
             ),

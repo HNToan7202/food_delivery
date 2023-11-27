@@ -13,6 +13,7 @@ import '../../../../../common/btn/tab_button.dart';
 import 'package:badges/badges.dart' as badges;
 
 import '../../../order/presentation/cubit/order_cubit.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({super.key});
@@ -60,54 +61,43 @@ class _NavBarState extends State<NavBar> with WidgetsBindingObserver {
           bucket: pageStorageBucket,
           child: selectPageView,
         ),
-        floatingActionButton: item > 0
-            ? Badge(
-                position: BadgePosition.topEnd(top: -13, end: -11),
-                badgeContent: const Text(
-                  "1",
-                  style: TextStyle(color: AppColorScheme.inkWhite),
-                ),
-                badgeStyle: badges.BadgeStyle(
-                  badgeColor: AppColorScheme.kPrimary,
-                  elevation: 0,
-                ),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, CartPage.routeName);
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColorScheme.inkWhite,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    padding: const EdgeInsets.all(10),
-                    width: 40,
-                    height: 40,
-                    child: Assets.images.shoppingCart.image(
-                      width: 25,
-                      height: 25,
-                      color: AppColorScheme.kPrimary,
-                    ),
-                    // child: FloatingActionButton(
-                    //   // shape: const CircleBorder(),
-                    //   backgroundColor:
-                    //       tab == 2 ? AppColorScheme.kPrimary : AppColorScheme.placeholder,
-                    //   onPressed: () {
-                    //     if (tab != 2) {
-                    //       tab = 2;
-                    //       selectPageView = const HomePage();
-                    //     }
-                    //     if (mounted) {
-                    //       setState(() {});
-                    //     }
-                    //   },
-                    //   child: Assets.images.tabHome.image(
-                    //     width: 30,
-                    //     height: 30,
-                    //   ),
-                    // ),
-                  ),
-                ),
+        floatingActionButton: tab == 2
+            ? BlocBuilder<OrderCubit, OrderState>(
+                builder: (context, state) {
+                  return state is OrderLoaded
+                      ? Badge(
+                          position: BadgePosition.topEnd(top: -13, end: -11),
+                          badgeContent: Text(
+                            "${state.orders.length.toString()}}",
+                            style:
+                                const TextStyle(color: AppColorScheme.inkWhite),
+                          ),
+                          badgeStyle: badges.BadgeStyle(
+                            badgeColor: AppColorScheme.kPrimary,
+                            elevation: 0,
+                          ),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, CartPage.routeName);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: AppColorScheme.inkWhite,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              padding: const EdgeInsets.all(10),
+                              width: 40,
+                              height: 40,
+                              child: Assets.images.shoppingCart.image(
+                                width: 25,
+                                height: 25,
+                                color: AppColorScheme.kPrimary,
+                              ),
+                            ),
+                          ),
+                        )
+                      : const SizedBox();
+                },
               )
             : const SizedBox(),
         bottomNavigationBar: BottomAppBar(
@@ -123,7 +113,7 @@ class _NavBarState extends State<NavBar> with WidgetsBindingObserver {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   TabButton(
-                      title: "Home",
+                      title: AppLocalizations.of(context)!.homeTab,
                       icon: Assets.images.tabMenu.path,
                       onTap: () {
                         if (tab != 2) {
@@ -136,7 +126,7 @@ class _NavBarState extends State<NavBar> with WidgetsBindingObserver {
                       },
                       isSelected: tab == 2),
                   TabButton(
-                      title: "Search",
+                      title: AppLocalizations.of(context)!.searchTab,
                       icon: Assets.images.search.path,
                       onTap: () {
                         if (tab != 0) {
@@ -149,7 +139,7 @@ class _NavBarState extends State<NavBar> with WidgetsBindingObserver {
                       },
                       isSelected: tab == 0),
                   TabButton(
-                      title: "Order",
+                      title: AppLocalizations.of(context)!.orderTab,
                       icon: Assets.images.tabOffer.path,
                       onTap: () {
                         if (tab != 1) {
@@ -162,7 +152,7 @@ class _NavBarState extends State<NavBar> with WidgetsBindingObserver {
                       },
                       isSelected: tab == 1),
                   TabButton(
-                      title: "Notify",
+                      title: AppLocalizations.of(context)!.notificationTab,
                       icon: Assets.images.moreNotification.path,
                       onTap: () {
                         if (tab != 3) {
@@ -175,7 +165,7 @@ class _NavBarState extends State<NavBar> with WidgetsBindingObserver {
                       },
                       isSelected: tab == 3),
                   TabButton(
-                      title: "More",
+                      title: AppLocalizations.of(context)!.moreTab,
                       icon: Assets.images.tabMore.path,
                       onTap: () {
                         if (tab != 4) {

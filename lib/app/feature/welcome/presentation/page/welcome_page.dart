@@ -3,7 +3,7 @@ import 'package:food_delivery/app/feature/login/presentation/page/login_page.dar
 import 'package:food_delivery/app/feature/sign_up/presentation/pages/sign_up_page.dart';
 import 'package:food_delivery/common/btn/btn_default.dart';
 import 'package:food_delivery/common/color_extension.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:food_delivery/gen/assets.gen.dart';
 
 class WelComePage extends StatelessWidget {
@@ -38,7 +38,7 @@ class WelComePage extends StatelessWidget {
               height: media.width * 0.1,
             ),
             Text(
-              "Discover the best foods from over 1,000\nrestaurants and fast delivery to your\ndoorstep",
+              AppLocalizations.of(context)!.welcome,
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: AppColorScheme.secondaryText,
@@ -51,7 +51,7 @@ class WelComePage extends StatelessWidget {
             Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
                 child: BtnDefault(
-                  title: "Login",
+                  title: AppLocalizations.of(context)!.login,
                   decoration: BoxDecoration(
                     color: AppColorScheme.kPrimary,
                     borderRadius: BorderRadius.circular(16),
@@ -76,7 +76,7 @@ class WelComePage extends StatelessWidget {
             Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
                 child: BtnDefault(
-                  title: "Create an Account",
+                  title: AppLocalizations.of(context)!.createAccount,
                   level: BtnDefaultLevel.secondary,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),

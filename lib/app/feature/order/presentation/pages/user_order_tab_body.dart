@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_delivery/app/feature/order/data/model/order_status_req.dart';
 import 'package:food_delivery/app/feature/order/presentation/cubit/order_cubit.dart';
 import 'package:food_delivery/common/color_extension.dart';
-import 'package:food_delivery/gen/assets.gen.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../../common/empty_page.dart';
 import '../widget/order_item.dart';

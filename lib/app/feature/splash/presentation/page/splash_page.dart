@@ -1,7 +1,10 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery/app/feature/intro/presentation/page/intro_page.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:food_delivery/app/feature/intro/presentation/page/on_boarding_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../../gen/assets.gen.dart';
+import '../../../login/presentation/page/login_page.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -16,25 +19,35 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
-      if (!isAllowed) {
-        AwesomeNotifications().requestPermissionToSendNotifications();
-      }
-    });
     goWelcomePage();
   }
 
   void goWelcomePage() async {
-    await Future.delayed(const Duration(seconds: 3));
     welcomePage();
   }
 
   void welcomePage() {
-    Navigator.of(context).pushNamedAndRemoveUntil(
-        IntroPage.routeName, (route) => false,
-        arguments: "");
-    // Navigator.push(context,
-    //     MaterialPageRoute(builder: (context) => const OnBoardingPage()));
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      getIsFirstTime().then((value) {
+        if (value) {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              OnBoardingPage.routeName, (route) => false,
+              arguments: "");
+        } else {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              LoginPage.routeName, (route) => false,
+              arguments: "");
+        }
+      });
+    });
+  }
+
+  Future<bool> getIsFirstTime() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    bool isFirstTime = prefs.getBool('isFirstTime') ?? true;
+    return isFirstTime;
   }
 
   @override

@@ -7,13 +7,12 @@ import 'package:food_delivery/app/feature/reset_password/data/repo/reset_passwor
 import 'package:food_delivery/app/feature/restaurant/data/repo/restaurant_repository_impl.dart';
 import 'package:food_delivery/app/feature/sign_up/data/repo/account_repository_impl.dart';
 import 'package:get_it/get_it.dart';
-
 import 'app/feature/auth/data/repositories/auth_repository_impl.dart';
 import 'core/service/api_service_impl.dart';
 
 final locator = GetIt.instance;
 Future<void> init() async {
-  locator.registerSingleton<Dio>(Dio()); //todo: thêm Tnterceptor
+  locator.registerSingleton<Dio>(Dio()); //todo: thêm interceptor
   locator.registerSingleton<ApiServiceImpl>(
       ApiServiceImpl(dio: locator.get<Dio>()));
   locator.registerSingleton<AuthRepositoryImpl>(

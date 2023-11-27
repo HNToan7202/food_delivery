@@ -2,10 +2,12 @@ import 'package:food_delivery/app/feature/restaurant/data/model/restaurant_dish_
 import 'package:food_delivery/app/feature/restaurant/data/model/res_dish_response.dart';
 import 'package:food_delivery/app/feature/restaurant/data/model/restaurant_response.dart';
 import 'package:food_delivery/app/feature/restaurant/data/model/restaurant_req.dart';
+import 'package:food_delivery/app/feature/restaurant/data/model/search_restaurant_req.dart';
 import 'package:food_delivery/app/feature/restaurant/domain/repo/restaurant_repository.dart';
 import 'package:food_delivery/core/models/common_response.dart';
 import '../../../../../core/base_url.dart';
 import '../../../../../core/service/api_service_impl.dart';
+import '../model/search_restaurant_response.dart';
 
 class RestaurantRepositoryImpl implements RestaurantRepository {
   final ApiServiceImpl service;
@@ -29,6 +31,15 @@ class RestaurantRepositoryImpl implements RestaurantRepository {
           "$BASE_URL/v1/dish/${req.restaurantId}/get-all?page=${req.page}&size=${req.size}",
       params: null,
       tFromMap: ResDishResponseData.fromJson,
+    );
+  }
+
+  @override
+  Future<CommonResponse<SearchResponseData>> searchRestaurant(SearchReq req) {
+    return service.get<SearchReq, SearchResponseData>(
+      path: "$BASE_URL/v1/get-restaurants-by-name-category",
+      params: req,
+      tFromMap: SearchResponseData.fromJson,
     );
   }
 }

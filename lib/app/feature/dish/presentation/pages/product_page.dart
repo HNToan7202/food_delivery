@@ -105,7 +105,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                   const SizedBox(
                     height: 15,
                   ),
-                  ListView.builder(
+                  ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     padding: EdgeInsets.zero,
@@ -142,6 +142,12 @@ class _CategoriesPageState extends State<CategoriesPage> {
                         );
                       }
                     }),
+                    separatorBuilder: (BuildContext context, int index) {
+                      return Container(
+                        height: 8,
+                        color: AppColorScheme.inkLightGray,
+                      );
+                    },
                   ),
                 ],
               ),
