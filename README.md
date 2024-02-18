@@ -16,7 +16,7 @@ Người dùng:
 *	Đặt hàng
 *	Thanh toán khi nhận hàng
 *	Theo dõi trạng thái đơn hàng. 
-Swagger UI: 
+* Swagger UI: 
 https://foods-delivery.azurewebsites.net/swagger-ui/index.html
 3.	Giao diện
  
